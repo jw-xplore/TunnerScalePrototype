@@ -1,0 +1,296 @@
+[gd_scene load_steps=11 format=3 uid="uid://da2mi25h7x2cu"]
+
+[ext_resource type="Script" uid="uid://t2wocd1wtyks" path="res://Game/Levels/ToneGame.gd" id="1_1yube"]
+[ext_resource type="Script" uid="uid://r3wuy457n38k" path="res://Game/Scripts/ToneRecognition.gd" id="1_c4aws"]
+[ext_resource type="AudioStream" uid="uid://dww8xs5yd537n" path="res://Game/Audio/Clicks/switch1.ogg" id="2_l3ppg"]
+[ext_resource type="Script" uid="uid://b5wlos8r21ygb" path="res://Game/Scripts/PhysicalProgression.gd" id="3_n8a3h"]
+[ext_resource type="Script" uid="uid://53moi3obviwh" path="res://Game/Scripts/ScalesManager.gd" id="4_2holh"]
+[ext_resource type="PackedScene" uid="uid://cqdh0ickds0rd" path="res://Game/Scenes/TestCharacter.tscn" id="4_4ao1r"]
+[ext_resource type="PackedScene" uid="uid://yfni673jociq" path="res://Game/Scenes/Ground.tscn" id="5_t7hqw"]
+[ext_resource type="PackedScene" uid="uid://dtbochwcwnuye" path="res://Game/Scenes/ScalePyramid.tscn" id="6_c8ytr"]
+[ext_resource type="PackedScene" uid="uid://oce7o2nmo5cb" path="res://Game/Scenes/Sheets/SheetRenderer.tscn" id="9_abuft"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_c4aws"]
+
+[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "tone_recognition", "character", "scaleManager", "lbl_current_tone", "lbl_score", "slider_bpm", "lbl_bpm", "itemlist_scale_key", "itemlist_scale_type")]
+script = ExtResource("1_1yube")
+tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
+metro = NodePath("Metronome")
+tone_recognition = NodePath("ToneRecognition")
+character = NodePath("GameScene/Character")
+scaleManager = NodePath("ScalesManager")
+lbl_current_tone = NodePath("NoteUI/ProgressionUI/LblToneToHit")
+lbl_score = NodePath("NoteUI/ProgressionUI/LblToneScore")
+slider_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMSlider")
+lbl_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMValue")
+itemlist_scale_key = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList")
+itemlist_scale_type = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList")
+
+[node name="ToneRecognition" type="Node" parent="." node_paths=PackedStringArray("lbl_tone", "lbl_record_exist", "lbl_spectrum_exist", "slider_vol_filter", "lbl_vol_filter")]
+script = ExtResource("1_c4aws")
+lbl_tone = NodePath("../NoteUI/LblTone")
+lbl_record_exist = NodePath("../NoteUI/LblRecordExist")
+lbl_spectrum_exist = NodePath("../NoteUI/LblSpectrumExist")
+slider_vol_filter = NodePath("../NoteUI/SettingsUI/VolCutSettings/VolFilterSlider")
+lbl_vol_filter = NodePath("../NoteUI/SettingsUI/VolCutSettings/VolFilterValue")
+
+[node name="PhysicalProgression" type="Node" parent="." node_paths=PackedStringArray("tone_game_mngr", "character", "current_pyramid")]
+script = ExtResource("3_n8a3h")
+tone_game_mngr = NodePath("..")
+character = NodePath("../GameScene/Character")
+current_pyramid = NodePath("../GameScene/ScalePyramid")
+
+[node name="ScalesManager" type="Node" parent="."]
+script = ExtResource("4_2holh")
+
+[node name="NoteUI" type="CanvasLayer" parent="."]
+
+[node name="LblTone" type="Label" parent="NoteUI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -144.0
+offset_right = 111.0
+offset_bottom = -121.0
+grow_vertical = 0
+text = "Tone: "
+vertical_alignment = 1
+
+[node name="LblRecordExist" type="Label" parent="NoteUI"]
+modulate = Color(1, 1, 1, 0.196078)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -80.0
+offset_right = 104.0
+offset_bottom = -57.0
+grow_vertical = 0
+text = "Rec"
+vertical_alignment = 1
+
+[node name="LblSpectrumExist" type="Label" parent="NoteUI"]
+modulate = Color(1, 1, 1, 0.196078)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -56.0
+offset_right = 107.0
+offset_bottom = -33.0
+grow_vertical = 0
+text = "Spect"
+vertical_alignment = 1
+
+[node name="ProgressionUI" type="Control" parent="NoteUI"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -20.0
+offset_right = -31.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LblToneToHit" type="Label" parent="NoteUI/ProgressionUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -76.0
+offset_right = -67.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Tone: "
+horizontal_alignment = 1
+
+[node name="LblToneScore" type="Label" parent="NoteUI/ProgressionUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 145.5
+offset_top = -69.0
+offset_right = 240.5
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "Score: "
+horizontal_alignment = 1
+
+[node name="SettingsUI" type="Control" parent="NoteUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VolCutSettings" type="Control" parent="NoteUI/SettingsUI"]
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 104.0
+offset_bottom = 104.0
+
+[node name="Label" type="Label" parent="NoteUI/SettingsUI/VolCutSettings"]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 40.0
+offset_bottom = 19.0
+text = "Filter vol:"
+vertical_alignment = 1
+
+[node name="VolFilterSlider" type="HSlider" parent="NoteUI/SettingsUI/VolCutSettings"]
+layout_mode = 0
+offset_left = 66.0
+offset_right = 375.0
+offset_bottom = 16.0
+max_value = 0.5
+step = 0.01
+
+[node name="VolFilterValue" type="Label" parent="NoteUI/SettingsUI/VolCutSettings"]
+layout_mode = 0
+offset_left = 393.0
+offset_top = -4.0
+offset_right = 433.0
+offset_bottom = 19.0
+text = "0.0"
+vertical_alignment = 1
+
+[node name="BPMSettings" type="Control" parent="NoteUI/SettingsUI"]
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 112.0
+offset_right = 104.0
+offset_bottom = 152.0
+
+[node name="Label" type="Label" parent="NoteUI/SettingsUI/BPMSettings"]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 40.0
+offset_bottom = 19.0
+text = "BPM:"
+vertical_alignment = 1
+
+[node name="BPMSlider" type="HSlider" parent="NoteUI/SettingsUI/BPMSettings"]
+layout_mode = 0
+offset_left = 66.0
+offset_right = 375.0
+offset_bottom = 16.0
+min_value = 40.0
+max_value = 200.0
+step = 5.0
+value = 40.0
+
+[node name="BPMValue" type="Label" parent="NoteUI/SettingsUI/BPMSettings"]
+layout_mode = 0
+offset_left = 393.0
+offset_top = -4.0
+offset_right = 433.0
+offset_bottom = 19.0
+text = "100"
+vertical_alignment = 1
+
+[node name="PlaySettings" type="Control" parent="NoteUI/SettingsUI"]
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 166.0
+offset_right = 104.0
+offset_bottom = 206.0
+
+[node name="Label" type="Label" parent="NoteUI/SettingsUI/PlaySettings"]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 40.0
+offset_bottom = 19.0
+text = "Play:"
+vertical_alignment = 1
+
+[node name="PlayButton" type="CheckButton" parent="NoteUI/SettingsUI/PlaySettings"]
+layout_mode = 0
+offset_left = 59.0
+offset_top = -4.0
+offset_right = 103.0
+offset_bottom = 20.0
+
+[node name="ProgressionSettings" type="Control" parent="NoteUI/SettingsUI"]
+anchors_preset = 0
+offset_left = 64.0
+offset_top = 215.0
+offset_right = 104.0
+offset_bottom = 255.0
+
+[node name="Label" type="Label" parent="NoteUI/SettingsUI/ProgressionSettings"]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 40.0
+offset_bottom = 19.0
+text = "Scale:"
+vertical_alignment = 1
+
+[node name="ScaleKeyList" type="ItemList" parent="NoteUI/SettingsUI/ProgressionSettings"]
+layout_mode = 0
+offset_left = 67.0
+offset_top = -4.0
+offset_right = 144.0
+offset_bottom = 41.0
+item_count = 2
+item_0/text = "c"
+item_1/text = "c#"
+
+[node name="ScaleTypeList" type="ItemList" parent="NoteUI/SettingsUI/ProgressionSettings"]
+layout_mode = 0
+offset_left = 152.0
+offset_top = -4.0
+offset_right = 320.0
+offset_bottom = 40.0
+item_count = 2
+item_0/text = "c"
+item_1/text = "c#"
+
+[node name="SheetRenderer" parent="NoteUI" instance=ExtResource("9_abuft")]
+offset_left = 64.0
+offset_top = 320.0
+offset_right = 64.0
+offset_bottom = 320.0
+fade_size = null
+
+[node name="Metronome" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_l3ppg")
+volume_db = -20.0
+
+[node name="AudioStreamRecord" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_c4aws")
+autoplay = true
+bus = &"Record"
+
+[node name="GameScene" type="Node" parent="."]
+
+[node name="ScalePyramid" parent="GameScene" instance=ExtResource("6_c8ytr")]
+position = Vector2(1480, 152)
+
+[node name="Character" parent="GameScene" instance=ExtResource("4_4ao1r")]
+position = Vector2(960, 380)
+scale = Vector2(0.75, 0.75)
+speed = 400
+
+[node name="Ground" parent="GameScene" instance=ExtResource("5_t7hqw")]
+position = Vector2(1422, 437)
+scale = Vector2(26.76, 1)
+
+[connection signal="value_changed" from="NoteUI/SettingsUI/VolCutSettings/VolFilterSlider" to="ToneRecognition" method="_on_vol_filter_slider_value_changed"]
+[connection signal="value_changed" from="NoteUI/SettingsUI/BPMSettings/BPMSlider" to="." method="_on_bpm_slider_value_changed"]
+[connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList" to="." method="_on_scale_key_list_item_selected"]
+[connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList" to="." method="_on_scale_type_list_item_selected"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqdh0ickds0rd"]
+
+[ext_resource type="Texture2D" uid="uid://bxbhsnp6nexgb" path="res://Game/Sprites/CharacterPlaceholder.png" id="1_ep8r6"]
+[ext_resource type="Script" uid="uid://crgy72qlchi0v" path="res://Game/Scripts/Character.gd" id="1_keaoc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_keaoc"]
+size = Vector2(64, 64)
+
+[node name="Character" type="CharacterBody2D"]
+script = ExtResource("1_keaoc")
+jump_speed = -1500
+gravity = 8000
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_keaoc")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.960784, 0.588235, 0, 1)
+texture = ExtResource("1_ep8r6")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-228, -127)

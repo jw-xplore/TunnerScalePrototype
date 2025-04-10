@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo2ejifgwjkwr"]
+
+[ext_resource type="Texture2D" uid="uid://d3q8hh26x1n6h" path="res://Game/Sprites/Sheets/Note.png" id="1_f44g6"]
+[ext_resource type="Texture2D" uid="uid://wm8yme8x1xb6" path="res://Game/Sprites/Sheets/LineBase.png" id="2_1it1h"]
+
+[node name="Note" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.5, 0.5)
+
+[node name="NoteParts" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Leg" type="TextureRect" parent="NoteParts"]
+modulate = Color(0.827451, 0.827451, 0.827451, 1)
+offset_left = 28.0
+offset_top = -202.0
+offset_right = 38.0
+offset_bottom = -2.0
+scale = Vector2(0.5, 1)
+texture = ExtResource("2_1it1h")
+
+[node name="Left" type="TextureRect" parent="NoteParts"]
+layout_mode = 0
+offset_left = -34.0
+offset_top = -20.0
+offset_right = 34.0
+offset_bottom = 20.0
+texture = ExtResource("1_f44g6")
+
+[node name="Sharp" type="Label" parent="."]
+layout_mode = 0
+offset_left = -74.0
+offset_top = -28.0
+offset_right = -34.0
+offset_bottom = 27.0
+theme_override_font_sizes/font_size = 40
+text = "#"
+horizontal_alignment = 1
+vertical_alignment = 1

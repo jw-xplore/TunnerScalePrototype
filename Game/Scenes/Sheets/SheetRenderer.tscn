@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://oce7o2nmo5cb"]
+
+[ext_resource type="Script" uid="uid://ccwedj51jic2h" path="res://Game/Scripts/SheetRenderer.gd" id="1_fdj81"]
+[ext_resource type="PackedScene" uid="uid://cotu3ekf31yn7" path="res://Game/Scenes/Sheets/SheetLine.tscn" id="2_k4bhy"]
+[ext_resource type="PackedScene" uid="uid://bo2ejifgwjkwr" path="res://Game/Scenes/Sheets/SheetNoteQuarter.tscn" id="3_cyy31"]
+
+[node name="SheetRenderer" type="Control" node_paths=PackedStringArray("lines_holder", "notes_holder")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fdj81")
+fade_size = 300.0
+line_scene = ExtResource("2_k4bhy")
+note_quarter_scene = ExtResource("3_cyy31")
+lines_holder = NodePath("Lines")
+notes_holder = NodePath("Notes")
+
+[node name="Lines" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Notes" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

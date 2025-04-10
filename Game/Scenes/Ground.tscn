@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://yfni673jociq"]
+
+[ext_resource type="Texture2D" uid="uid://bxbhsnp6nexgb" path="res://Game/Sprites/CharacterPlaceholder.png" id="1_etqf7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etqf7"]
+size = Vector2(64, 64)
+
+[node name="Ground" type="StaticBody2D"]
+
+[node name="CharacterPlaceholder" type="Sprite2D" parent="."]
+modulate = Color(0.0923971, 0.0923971, 0.0923971, 1)
+texture = ExtResource("1_etqf7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_etqf7")

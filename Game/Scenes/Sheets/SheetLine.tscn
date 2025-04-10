@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://cotu3ekf31yn7"]
+
+[ext_resource type="Texture2D" uid="uid://wm8yme8x1xb6" path="res://Game/Sprites/Sheets/LineBase.png" id="1_4p1c0"]
+[ext_resource type="Texture2D" uid="uid://cc88s6krxefgq" path="res://Game/Sprites/Sheets/LineEdge.png" id="1_nn4lm"]
+
+[node name="Line" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.25, 0.25)
+
+[node name="Left" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_right = 50.0
+offset_bottom = 10.0
+scale = Vector2(-1, 1)
+texture = ExtResource("1_nn4lm")
+
+[node name="Base" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_right = 1540.0
+offset_bottom = 10.0
+texture = ExtResource("1_4p1c0")
+
+[node name="Right" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1540.0
+offset_right = 1550.0
+offset_bottom = 10.0
+texture = ExtResource("1_nn4lm")
