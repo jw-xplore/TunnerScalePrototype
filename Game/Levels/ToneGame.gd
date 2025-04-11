@@ -9,6 +9,7 @@ class_name ToneGameManager
 @export var tone_recognition: ToneRecognition
 @export var character: Character
 @export var scaleManager: ScalesManager
+@export var sheet_renderer: SheetRenderer
 
 # UI
 @export var lbl_current_tone: Label
@@ -51,6 +52,7 @@ func _ready() -> void:
 		itemlist_scale_type.add_item(type)
 	
 	itemlist_scale_type.select(0)
+	_on_scale_key_list_item_selected(0)
 
 func _process(delta: float) -> void:
 	if running == false:
@@ -73,8 +75,10 @@ func run_metronome(delta: float):
 func tone_progress(delta: float):
 	if bpm_time_count < bpm_time:
 		# Check note was hit within current beat
+		var cur_note = tone_recognition.current_note + str(tone_recognition.current_octave)
+		
 		if (last_note_hit + 1) == current_pos and \
-		tone_recognition.current_note == tones[current_pos]:
+		cur_note == tones[current_pos]:
 			last_note_hit += 1
 			on_scale_progress.emit()
 			
@@ -137,6 +141,7 @@ func _on_scale_key_list_item_selected(index: int) -> void:
 	reversed.append_array(tones)
 	reversed.reverse()
 	tones.append_array(reversed)
+	sheet_renderer.create_sequece(tones)
 	print("Current scale: " + str(tones))
 
 func _on_scale_type_list_item_selected(index: int) -> void:
@@ -147,4 +152,5 @@ func _on_scale_type_list_item_selected(index: int) -> void:
 	reversed.append_array(tones)
 	reversed.reverse()
 	tones.append_array(reversed)
+	sheet_renderer.create_sequece(tones)
 	print("Current scale: " + str(tones))

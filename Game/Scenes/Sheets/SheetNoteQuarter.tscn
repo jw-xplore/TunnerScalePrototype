@@ -17,6 +17,7 @@ offset_bottom = 40.0
 
 [node name="Leg" type="TextureRect" parent="NoteParts"]
 modulate = Color(0.827451, 0.827451, 0.827451, 1)
+layout_mode = 0
 offset_left = 28.0
 offset_top = -202.0
 offset_right = 38.0

@@ -5,15 +5,18 @@ var effect: AudioEffect
 
 # Spectrum analyzer
 var spectrum: AudioEffectSpectrumAnalyzerInstance
-const VU_COUNT = 2048
-const FREQ_MAX = 2000.0
+const VU_COUNT = 2200
+const FREQ_MAX = 2200
 const MIN_DB = 60
+const C2_MIDI_POS = 36 # Corresponding to 'var fqToMidi = round(69 + 12 * fq)', C7 (highest) = 96
+const LOWEST_OCTAVE = 2
 
 @export_range(0.0, 0.5) var ignore_tone_below_volume = 0.25
 
 var note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 var current_note = note_names[0]
 var current_fq = 0
+var current_octave: int = 0
 
 var permissions
 
@@ -47,7 +50,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	processSound()
 	# UI
-	lbl_tone.text = "Tone: " + current_note + " (" + str(current_fq) + " Hz)"
+	lbl_tone.text = "Tone: " + current_note + str(current_octave) + " (" + str(current_fq) + " Hz)"
 	lbl_record_exist.text = "Record eff.: " + str(effect != null)
 	lbl_spectrum_exist.text = "Spectrum eff.: " + str(spectrum != null)
 
@@ -77,13 +80,17 @@ func processSound():
 			largestRange = energy
 			largestRangeFq = hz
 			
-	
+	var ac = autocorrelation(energies)
+	playedNote(ac)
+			
+	"""
 	if valumeOfLargestRange >= ignore_tone_below_volume:
 		#print("loudest: " + str(valumeOfLargestRange) + " DB") 
 		playedNote(largestRangeFq)
 	else:
 		#print("ignore input")
 		pass
+	"""
 
 func playedNote(frequency) -> void:
 	if frequency <= 0:
@@ -91,10 +98,26 @@ func playedNote(frequency) -> void:
 	
 	var fq = log(frequency / 440.0) / log(2) # NOTE: Explore fq and fqToMidi formula
 	var fqToMidi = round(69 + 12 * fq)
+	var octave = floor((fqToMidi - C2_MIDI_POS) / 12) + LOWEST_OCTAVE
 	
 	current_fq = frequency
 	current_note = note_names[int(fqToMidi) % 12]
-
+	current_octave = octave
+	
+func autocorrelation(energies: Array):
+	#var correlations = []
+	var s = energies.size()
+	var largest_correlation = energies[0] * energies[0]
+	var lagest_pos = 0
+	
+	for lag in range(1, s):
+		var cor = energies[lag] * energies[(lag * 2) % s]
+		if largest_correlation < cor:
+			largest_correlation = cor
+			lagest_pos = lag
+		#correlations.append(cor)
+		
+	return lagest_pos
 
 func _on_vol_filter_slider_value_changed(value: float) -> void:
 	ignore_tone_below_volume = value

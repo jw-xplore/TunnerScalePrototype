@@ -12,13 +12,14 @@
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_c4aws"]
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "tone_recognition", "character", "scaleManager", "lbl_current_tone", "lbl_score", "slider_bpm", "lbl_bpm", "itemlist_scale_key", "itemlist_scale_type")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "tone_recognition", "character", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "slider_bpm", "lbl_bpm", "itemlist_scale_key", "itemlist_scale_type")]
 script = ExtResource("1_1yube")
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
 tone_recognition = NodePath("ToneRecognition")
 character = NodePath("GameScene/Character")
 scaleManager = NodePath("ScalesManager")
+sheet_renderer = NodePath("NoteUI/SheetRenderer")
 lbl_current_tone = NodePath("NoteUI/ProgressionUI/LblToneToHit")
 lbl_score = NodePath("NoteUI/ProgressionUI/LblToneScore")
 slider_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMSlider")
@@ -265,7 +266,6 @@ offset_left = 64.0
 offset_top = 320.0
 offset_right = 64.0
 offset_bottom = 320.0
-fade_size = null
 
 [node name="Metronome" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_l3ppg")
