@@ -7,6 +7,7 @@ var effect: AudioEffect
 var spectrum: AudioEffectSpectrumAnalyzerInstance
 const VU_COUNT = 2200
 const FREQ_MAX = 2200
+const SINGLE_SAMPLE_RANGE = 0.5 # Hz
 const MIN_DB = 60
 const C2_MIDI_POS = 36 # Corresponding to 'var fqToMidi = round(69 + 12 * fq)', C7 (highest) = 96
 const LOWEST_OCTAVE = 2
@@ -69,7 +70,7 @@ func processSound():
 		var hz := i * FREQ_MAX / VU_COUNT
 		var magnitude := spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
 		var energy := clampf((MIN_DB + linear_to_db(magnitude)) / MIN_DB, 0, 1)
-		energies.append(energy)
+		energies.append(energy * energy_boost(hz, FREQ_MAX, 2))
 		prev_hz = hz
 		
 		# Sum frequencies
@@ -91,6 +92,9 @@ func processSound():
 		#print("ignore input")
 		pass
 	"""
+
+func energy_boost(frequency: float, max_fq: float, boost: float) -> float:
+	return (max_fq - frequency) * 0.001 * boost
 
 func playedNote(frequency) -> void:
 	if frequency <= 0:
