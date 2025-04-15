@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj8mt706ekp58"]
+
+[ext_resource type="Texture2D" uid="uid://cr3sh63jmevps" path="res://Game/Sprites/ScaleMountains/Mountain1.png" id="1_2tksu"]
+[ext_resource type="Script" uid="uid://bv6gd8pl3t0vh" path="res://Game/Scripts/Play/ScaleMountain.gd" id="1_st2lo"]
+
+[node name="ScaleMountain1" type="Node2D" node_paths=PackedStringArray("points_holder", "sprite")]
+script = ExtResource("1_st2lo")
+points_holder = NodePath("Points")
+sprite = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.498039, 0.458824, 0.447059, 1)
+texture = ExtResource("1_2tksu")
+
+[node name="Points" type="Node2D" parent="."]
+
+[node name="Point0" type="Node2D" parent="Points"]
+position = Vector2(-280, 232)
+
+[node name="Point1" type="Node2D" parent="Points"]
+position = Vector2(-208, 176)
+
+[node name="Point2" type="Node2D" parent="Points"]
+position = Vector2(-144, 112)
+
+[node name="Point3" type="Node2D" parent="Points"]
+position = Vector2(-72, 56)
+
+[node name="Point4" type="Node2D" parent="Points"]
+position = Vector2(-8, -16)
+
+[node name="Point5" type="Node2D" parent="Points"]
+position = Vector2(48, -72)
+
+[node name="Point6" type="Node2D" parent="Points"]
+position = Vector2(112, -136)
+
+[node name="Point7" type="Node2D" parent="Points"]
+position = Vector2(176, -200)
+
+[node name="Point8" type="Node2D" parent="Points"]
+position = Vector2(240, -272)

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv1kgbudicmxm"]
+
+[ext_resource type="Script" uid="uid://cefkoxcv1gnib" path="res://Game/Scripts/Play/ScalePeak.gd" id="1_irnfr"]
+[ext_resource type="PackedScene" uid="uid://cj8mt706ekp58" path="res://Game/Scenes/ScaleMountains/ScaleMountain1.tscn" id="2_qwk17"]
+
+[node name="ScalePeak" type="Node2D"]
+script = ExtResource("1_irnfr")
+left_list = Array[PackedScene]([ExtResource("2_qwk17")])
+right_list = Array[PackedScene]([ExtResource("2_qwk17")])
+metadata/_custom_type_script = "uid://cefkoxcv1gnib"

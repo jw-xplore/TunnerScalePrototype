@@ -7,7 +7,7 @@ class_name ToneGameManager
 @export var key = 0
 @export var metro: AudioStreamPlayer
 @export var tone_recognition: ToneRecognition
-@export var character: Character
+#@export var character: Character
 @export var scaleManager: ScalesManager
 @export var sheet_renderer: SheetRenderer
 
@@ -97,17 +97,24 @@ func tone_progress(delta: float):
 				on_scale_finished.emit()
 				
 				# Restart pos
-				run_metro = false
-				character.on_reach_target_x.connect(on_character_reach_target)
+				#run_metro = false
+				#character.on_reach_target_x.connect(on_character_reach_target)
 		else:
 			# Restart if failed
-			current_pos = 0
-			last_note_hit = -1
+			var mid = tones.size() / 2
+			if current_pos >= mid:
+				current_pos = mid
+				last_note_hit = mid - 1
+			else:
+				current_pos = 0
+				last_note_hit = -1
+				
+			tone_recognition.clear_current_note()
 			on_scale_fail.emit()
 			
 			# Restart pos
-			run_metro = false
-			character.on_reach_target_x.connect(on_character_reach_target)
+			#run_metro = false
+			#character.on_reach_target_x.connect(on_character_reach_target)
 			
 
 func progression_ui():
@@ -123,7 +130,7 @@ func progression_ui():
 # Character callback
 func on_character_reach_target():
 	run_metro = true
-	character.on_reach_target_x.disconnect(on_character_reach_target)
+	#character.on_reach_target_x.disconnect(on_character_reach_target)
 	tone_recognition.clear_current_note()
 
 # UI callbacks
