@@ -11,6 +11,7 @@ var points: Array[Node2D]
 signal on_get_points
 
 func _ready() -> void:
+	points.clear()
 	if Engine.is_editor_hint():
 		return
 	
@@ -19,8 +20,10 @@ func _ready() -> void:
 		for p in points_holder.get_children():
 			points.append(p)
 	else:
-		for i in range(points_holder.get_child_count() - 1, 0, -1):
+		var i = points_holder.get_children().size() - 1
+		while i > 0:
 			points.append(points_holder.get_child(i))
+			i -= 1
 			
 		# Scale
 		scale = Vector2(- abs(scale.x), scale.y)
@@ -42,12 +45,17 @@ func get_point(id: int) -> Node2D:
 	return points[id]
 	
 func is_end(point: Node2D) -> bool:
-	var last_p = points_holder.get_child(points_holder.get_child_count() - 1)
-	return last_p == point
+	return point == points[points.size() - 1]
 	
 func set_reverted(reverted: bool):
 	is_reverted = reverted
+	points.clear()
+	
 	if is_reverted:
 		scale = Vector2(- abs(scale.x), scale.y)
+		for i in range(points_holder.get_child_count() - 1, 0, -1):
+			points.append(points_holder.get_child(i))
 	else:
 		scale = Vector2(abs(scale.x), scale.y)
+		for p in points_holder.get_children():
+			points.append(p)

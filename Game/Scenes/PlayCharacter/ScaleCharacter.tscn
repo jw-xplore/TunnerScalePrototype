@@ -23,7 +23,7 @@ script = ExtResource("1_k8wpa")
 move_curve = SubResource("Curve_k8wpa")
 move_down_curve = SubResource("Curve_e5bow")
 speed_curve = SubResource("Curve_mfs3y")
-anim_speed = 1.75
+anim_speed = 4.0
 
 [node name="CharacterPlaceholder" type="Sprite2D" parent="."]
 modulate = Color(0.841486, 0.481866, 0.503376, 1)
@@ -31,4 +31,5 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("1_u1h1t")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-228, -127)
+position = Vector2(248, -128)
+zoom = Vector2(0.5, 0.5)

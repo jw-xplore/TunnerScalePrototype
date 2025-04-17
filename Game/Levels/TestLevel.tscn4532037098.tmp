@@ -291,7 +291,7 @@ z_index = 1
 position = Vector2(457, 365)
 
 [node name="MointainStart" type="Node2D" parent="GameScene"]
-position = Vector2(2471, 152)
+position = Vector2(2248, 152)
 
 [connection signal="value_changed" from="NoteUI/SettingsUI/VolCutSettings/VolFilterSlider" to="ToneRecognition" method="_on_vol_filter_slider_value_changed"]
 [connection signal="value_changed" from="NoteUI/SettingsUI/BPMSettings/BPMSlider" to="." method="_on_bpm_slider_value_changed"]

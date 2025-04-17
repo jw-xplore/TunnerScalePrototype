@@ -1,7 +1,7 @@
 extends Node2D
 class_name ScaleCharacter
 
-@export var mountain: ScaleMountain
+var mountain: ScaleMountain
 @export var move_curve: Curve
 @export var move_down_curve: Curve
 @export var speed_curve: Curve
@@ -14,9 +14,8 @@ var pos: float = 0 # 0 = at current point, 1 = arrived at next point
 var is_moving = false
 
 func _ready() -> void:
-	set_mouintain(mountain)
-	var st = current_point.global_position
-	global_position = current_point.global_position
+	pass
+	#set_mouintain(mountain)
 	
 func _process(delta: float) -> void:
 	move_to_next_point(delta)
@@ -42,7 +41,7 @@ func move_to_next_point(delta: float):
 	var targ = next_point.global_position
 	
 	var y_move = 0
-	if mountain.is_reverted:
+	if current_point.global_position.y - next_point.global_position.y < 0:
 		y_move = move_down_curve.sample(pos)
 	else:
 		y_move = move_curve.sample(pos)
@@ -54,11 +53,14 @@ func move_to_next_point(delta: float):
 	
 	# Reached
 	if pos >= 1:
+		set_current_point(current_point_id + 1)
+		"""
 		if not mountain.is_end(next_point):
 			set_current_point(current_point_id + 1)
 		else:
 			current_point_id += 1
-			current_point = mountain.get_point(current_point_id + 1)
+			current_point = mountain.get_point(current_point_id)
+		"""
 			
 		is_moving = false
 		pos = 0
@@ -70,8 +72,12 @@ func set_current_point(point_id: int, teleport = false):
 	# Move to next
 	pos = 0
 	current_point_id = point_id
-	current_point = mountain.get_point(point_id)
-	next_point = mountain.get_point(point_id + 1)
+	if point_id + 1 < mountain.points.size():
+		current_point = mountain.get_point(point_id)
+		next_point = mountain.get_point(point_id + 1)
+	else:
+		current_point = mountain.get_point(point_id)
+		next_point = mountain.get_point(point_id)
 	
 	if teleport:
 		global_position = current_point.global_position

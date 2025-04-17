@@ -101,13 +101,8 @@ func tone_progress(delta: float):
 				#character.on_reach_target_x.connect(on_character_reach_target)
 		else:
 			# Restart if failed
-			var mid = tones.size() / 2
-			if current_pos >= mid:
-				current_pos = mid
-				last_note_hit = mid - 1
-			else:
-				current_pos = 0
-				last_note_hit = -1
+			current_pos = 0
+			last_note_hit = -1
 				
 			tone_recognition.clear_current_note()
 			on_scale_fail.emit()
