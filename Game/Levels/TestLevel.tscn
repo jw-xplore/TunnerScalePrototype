@@ -1,15 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://da2mi25h7x2cu"]
+[gd_scene load_steps=7 format=3 uid="uid://da2mi25h7x2cu"]
 
 [ext_resource type="Script" uid="uid://t2wocd1wtyks" path="res://Game/Levels/ToneGame.gd" id="1_1yube"]
 [ext_resource type="Script" uid="uid://r3wuy457n38k" path="res://Game/Scripts/ToneRecognition.gd" id="1_c4aws"]
 [ext_resource type="AudioStream" uid="uid://dww8xs5yd537n" path="res://Game/Audio/Clicks/switch1.ogg" id="2_l3ppg"]
-[ext_resource type="Script" uid="uid://b5wlos8r21ygb" path="res://Game/Scripts/PhysicalProgression.gd" id="3_n8a3h"]
 [ext_resource type="Script" uid="uid://53moi3obviwh" path="res://Game/Scripts/ScalesManager.gd" id="4_2holh"]
-[ext_resource type="PackedScene" uid="uid://yfni673jociq" path="res://Game/Scenes/Ground.tscn" id="5_t7hqw"]
-[ext_resource type="PackedScene" uid="uid://dtbochwcwnuye" path="res://Game/Scenes/ScalePyramid.tscn" id="6_c8ytr"]
 [ext_resource type="PackedScene" uid="uid://oce7o2nmo5cb" path="res://Game/Scenes/Sheets/SheetRenderer.tscn" id="9_abuft"]
-[ext_resource type="PackedScene" uid="uid://rtedthd1h1bk" path="res://Game/Scenes/PlayCharacter/ScaleCharacter.tscn" id="9_ugqfd"]
-[ext_resource type="PackedScene" uid="uid://cv1kgbudicmxm" path="res://Game/Scenes/ScaleMountains/ScalePeak.tscn" id="11_f5f3r"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_c4aws"]
 
@@ -34,13 +29,6 @@ lbl_record_exist = NodePath("../NoteUI/LblRecordExist")
 lbl_spectrum_exist = NodePath("../NoteUI/LblSpectrumExist")
 slider_vol_filter = NodePath("../NoteUI/SettingsUI/VolCutSettings/VolFilterSlider")
 lbl_vol_filter = NodePath("../NoteUI/SettingsUI/VolCutSettings/VolFilterValue")
-
-[node name="PhysicalProgression" type="Node" parent="." node_paths=PackedStringArray("tone_game_mngr", "character", "starting_point")]
-script = ExtResource("3_n8a3h")
-tone_game_mngr = NodePath("..")
-character = NodePath("../GameScene/ScaleCharacter")
-moutain_scene = ExtResource("11_f5f3r")
-starting_point = NodePath("../GameScene/MointainStart")
 
 [node name="ScalesManager" type="Node" parent="."]
 script = ExtResource("4_2holh")
@@ -276,22 +264,6 @@ volume_db = -20.0
 stream = SubResource("AudioStreamMicrophone_c4aws")
 autoplay = true
 bus = &"Record"
-
-[node name="GameScene" type="Node" parent="."]
-
-[node name="ScalePyramid" parent="GameScene" instance=ExtResource("6_c8ytr")]
-position = Vector2(1480, 152)
-
-[node name="Ground" parent="GameScene" instance=ExtResource("5_t7hqw")]
-position = Vector2(1422, 437)
-scale = Vector2(26.76, 1)
-
-[node name="ScaleCharacter" parent="GameScene" instance=ExtResource("9_ugqfd")]
-z_index = 1
-position = Vector2(457, 365)
-
-[node name="MointainStart" type="Node2D" parent="GameScene"]
-position = Vector2(2471, 152)
 
 [connection signal="value_changed" from="NoteUI/SettingsUI/VolCutSettings/VolFilterSlider" to="ToneRecognition" method="_on_vol_filter_slider_value_changed"]
 [connection signal="value_changed" from="NoteUI/SettingsUI/BPMSettings/BPMSlider" to="." method="_on_bpm_slider_value_changed"]
