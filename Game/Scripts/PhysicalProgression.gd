@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 	if character.current_point_id == current_moutain.points.size() \
 	and current_mountain_id < moutains.size() :
 		current_mountain_id += 1
-		character.set_mouintain(moutains[current_mountain_id])
+		character.set_mouintain(moutains[current_mountain_id], moutains[current_mountain_id-1])
 
 func on_first_mountain_get_points(points):
 	character.set_mouintain(current_moutain)

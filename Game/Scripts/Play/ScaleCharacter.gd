@@ -20,10 +20,18 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	move_to_next_point(delta)
 	
-func set_mouintain(sc_mountain: ScaleMountain):
+func set_mouintain(sc_mountain: ScaleMountain, prev_mountain: ScaleMountain = null):
 	mountain = sc_mountain
 	
-	set_current_point(0, true)
+	if prev_mountain == null:
+		set_current_point(0, true)
+		return
+	
+	# Traverse between mountains
+	current_point = prev_mountain.get_point(pos)
+	next_point = mountain.get_point(0)
+	pos = 0
+	current_point_id = 0
 	
 func move_to_next_point(delta: float):
 	# Ingore if is at next point
