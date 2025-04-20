@@ -21,6 +21,7 @@ slider_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMSlider")
 lbl_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMValue")
 itemlist_scale_key = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList")
 itemlist_scale_type = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList")
+beat_offset = 1
 
 [node name="ToneRecognition" type="Node" parent="." node_paths=PackedStringArray("lbl_tone", "lbl_record_exist", "lbl_spectrum_exist", "slider_vol_filter", "lbl_vol_filter")]
 script = ExtResource("1_c4aws")
@@ -250,11 +251,14 @@ item_count = 2
 item_0/text = "c"
 item_1/text = "c#"
 
-[node name="SheetRenderer" parent="NoteUI" instance=ExtResource("9_abuft")]
-offset_left = 64.0
+[node name="SheetRenderer" parent="NoteUI" node_paths=PackedStringArray("tone_game") instance=ExtResource("9_abuft")]
+offset_left = 131.0
 offset_top = 320.0
-offset_right = 64.0
+offset_right = 131.0
 offset_bottom = 320.0
+tone_game = NodePath("../..")
+remove_note_position = -200.0
+new_sequence_position = 600.0
 
 [node name="Metronome" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_l3ppg")

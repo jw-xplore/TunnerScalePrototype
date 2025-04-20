@@ -7,9 +7,10 @@ class_name ToneGameManager
 @export var key = 0
 @export var metro: AudioStreamPlayer
 @export var tone_recognition: ToneRecognition
-#@export var character: Character
 @export var scaleManager: ScalesManager
 @export var sheet_renderer: SheetRenderer
+@export var wait_for_beat: int = 4
+var beats_passed: int = 0
 
 # UI
 @export var lbl_current_tone: Label
@@ -18,6 +19,7 @@ class_name ToneGameManager
 @export var lbl_bpm: Label
 @export var itemlist_scale_key: ItemList
 @export var itemlist_scale_type: ItemList
+@export var beat_offset = 0
 
 var running = true
 var current_pos = 0
@@ -25,6 +27,7 @@ var last_note_hit = -1
 
 var score = 0
 
+var has_failed = false
 var run_metro = true
 var bpm_time = 0.0
 var bpm_time_count = 0.0
@@ -53,6 +56,9 @@ func _ready() -> void:
 	
 	itemlist_scale_type.select(0)
 	_on_scale_key_list_item_selected(0)
+	
+	sheet_renderer.set_notes_position(-wait_for_beat - beat_offset)
+	sheet_renderer.set_check_area_beat_offset(-beat_offset)
 
 func _process(delta: float) -> void:
 	if running == false:
@@ -61,16 +67,28 @@ func _process(delta: float) -> void:
 	if run_metro:
 		run_metronome(delta)
 	progression_ui()
+	
+	# Sheets rendered update
+	sheet_renderer.move_notes(delta)
+	if sheet_renderer.can_create_new_sequence():
+		sheet_renderer.create_sequece(tones)
 
 # Custom audio
 
 func run_metronome(delta: float):
 	if bpm_time_count < bpm_time:
 		bpm_time_count += delta
-		tone_progress(delta)
+		# Check tone progression
+		if beats_passed >= wait_for_beat:
+			tone_progress(delta)
 	else:
 		metro.play()
 		bpm_time_count = 0
+		beats_passed += 1
+		
+		# Restart - here to sync with beat
+		if has_failed:
+			restart_progression()
 
 func tone_progress(delta: float):
 	if bpm_time_count < bpm_time:
@@ -80,6 +98,8 @@ func tone_progress(delta: float):
 		if (last_note_hit + 1) == current_pos and \
 		cur_note == tones[current_pos]:
 			last_note_hit += 1
+			sheet_renderer.tested_note_feedback(true)
+			tone_recognition.clear_current_note()
 			on_scale_progress.emit()
 			
 			# Add score for half
@@ -95,23 +115,25 @@ func tone_progress(delta: float):
 				current_pos = 0
 				last_note_hit = -1
 				on_scale_finished.emit()
-				
-				# Restart pos
-				#run_metro = false
-				#character.on_reach_target_x.connect(on_character_reach_target)
+
 		else:
 			# Restart if failed
 			current_pos = 0
 			last_note_hit = -1
-				
+			has_failed = true
+			
+			sheet_renderer.tested_note_feedback(false)
 			tone_recognition.clear_current_note()
 			on_scale_fail.emit()
 			
-			# Restart pos
-			#run_metro = false
-			#character.on_reach_target_x.connect(on_character_reach_target)
-			
 
+func restart_progression():
+	sheet_renderer.clear_sheet()
+	sheet_renderer.create_sequece(tones)
+	sheet_renderer.set_notes_position(-wait_for_beat - beat_offset)
+	has_failed = false
+	beats_passed = 0
+	
 func progression_ui():
 	lbl_current_tone.text = "Play note: " + tones[current_pos]
 	lbl_score.text = "Score: " + str(score)
@@ -125,7 +147,6 @@ func progression_ui():
 # Character callback
 func on_character_reach_target():
 	run_metro = true
-	#character.on_reach_target_x.disconnect(on_character_reach_target)
 	tone_recognition.clear_current_note()
 
 # UI callbacks
@@ -143,6 +164,7 @@ func _on_scale_key_list_item_selected(index: int) -> void:
 	reversed.append_array(tones)
 	reversed.reverse()
 	tones.append_array(reversed)
+	sheet_renderer.clear_sheet()
 	sheet_renderer.create_sequece(tones)
 	print("Current scale: " + str(tones))
 
@@ -155,4 +177,3 @@ func _on_scale_type_list_item_selected(index: int) -> void:
 	reversed.reverse()
 	tones.append_array(reversed)
 	sheet_renderer.create_sequece(tones)
-	print("Current scale: " + str(tones))

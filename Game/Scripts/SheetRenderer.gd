@@ -2,8 +2,11 @@
 extends Control
 class_name SheetRenderer
 
+@export var tone_game: ToneGameManager
+
 @export_group("Properties")
 @export var line_space: float = 25
+@export var note_distance = 100
 @export var fade_size: float = 250
 
 @export_group("Sheet assets")
@@ -13,12 +16,18 @@ class_name SheetRenderer
 @export_group("Node references")
 @export var lines_holder: Control
 @export var notes_holder: Control
+@export var check_area: Control
+
+@export_group("Positions")
+@export var remove_note_position: float = -200
+@export var new_sequence_position: float = 200
 
 var note_names = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 var lowest_position_treble_c4 = 10
 const OCTAVE_DISTANCE = 7
 var half_step = line_space * 0.5
-var note_distance = 100
+
+var tested_note: Control
 
 func _ready() -> void:
 	# Create line base
@@ -27,17 +36,21 @@ func _ready() -> void:
 		lines_holder.add_child(line)
 		
 		line.position = Vector2(0, i * line_space)
-
 		
 func _process(delta: float) -> void:
 	# Process note visibility
 	for note in notes_holder.get_children():
-		#note_visibility(note)
-		pass
+		note_visibility(note)
+		
+	# Remove notes if too left
+	for note in notes_holder.get_children():
+		if note.global_position.x < remove_note_position:
+			notes_holder.remove_child(note)
+			note.queue_free()
+			break;
+	#move_notes(delta)
 		
 func create_sequece(notes: Array[String]):
-	clear_sheet()
-	
 	for note in notes:
 		if note.length() == 2:
 			create_note(note[0], int(note[1]))
@@ -54,7 +67,12 @@ func create_note(note: String, octave: int):
 	notes_holder.add_child(note_obj)
 	
 	# Position and scale
-	var x = note_distance * (notes_holder.get_child_count() - 1)
+	var prev_note: Control = notes_holder.get_child(notes_holder.get_child_count() - 2)
+	var prev_pos_x = 0
+	if prev_note != null:
+		prev_pos_x = prev_note.position.x
+		
+	var x = note_distance + prev_pos_x
 	var octave_position = (octave - 4) * half_step * OCTAVE_DISTANCE
 	var y = lowest_position_treble_c4 * half_step - pos * half_step - octave_position
 	note_obj.position = Vector2(x, y)
@@ -75,5 +93,48 @@ func clear_sheet():
 		note.queue_free()
 
 func note_visibility(note: Control):
-	if note.position.x > fade_size:
-		note.modulate.a = (fade_size - (note.position.x - fade_size)) / fade_size
+	if note.global_position.x > fade_size:
+		note.modulate.a = (fade_size - (note.global_position.x - fade_size)) / fade_size
+		
+func move_notes(delta: float):
+	var move = (tone_game.bpm / 60) * note_distance * delta
+	notes_holder.position -= Vector2(move, 0)
+
+func note_node_id(note: Node) -> int:
+	var i: int = 0
+	for n in notes_holder.get_children():
+		i += 1
+		if n == note:
+			return i
+			
+	return -1
+	
+func set_notes_position(beats: int):
+	var pos = note_distance * (beats - sign(beats) * 1)
+	notes_holder.position = Vector2(-pos, 0)
+	
+func set_check_area_beat_offset(beats: int):
+	var pos = note_distance * (beats)
+	var area_w = check_area.texture.get_width() / 2
+	check_area.position = Vector2(-pos - area_w, check_area.position.y)
+
+func can_create_new_sequence() -> bool:
+	var last_note = notes_holder.get_child(notes_holder.get_child_count() - 1)
+	if last_note == null:
+		return false
+		
+	return last_note.global_position.x < new_sequence_position
+
+func tested_note_feedback(success: bool):
+	# update tested note
+	if tested_note == null:
+		tested_note = notes_holder.get_child(0)
+	else:
+		if notes_holder.global_position.x - tested_note.global_position.x < note_distance:
+			tested_note = notes_holder.get_child(note_node_id(tested_note))
+			
+	# Color note
+	if success:
+		tested_note.modulate = Color.AQUAMARINE
+	else:
+		tested_note.modulate = Color.FIREBRICK
