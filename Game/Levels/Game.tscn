@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1fluq8sf3vbq"]
+
+[ext_resource type="Script" uid="uid://dio83vf5wotg7" path="res://Game/Scripts/System/GameManager.gd" id="1_tn28x"]
+[ext_resource type="PackedScene" uid="uid://csveudvowtccw" path="res://Game/Scenes/Play/SunriseImage.tscn" id="2_tn28x"]
+[ext_resource type="PackedScene" uid="uid://45fhrklnafnt" path="res://Game/Scenes/UI/MenuLayout.tscn" id="3_lxbe4"]
+[ext_resource type="PackedScene" uid="uid://da2mi25h7x2cu" path="res://Game/Levels/TestLevel.tscn" id="3_tn28x"]
+
+[node name="Game" type="Node" node_paths=PackedStringArray("menu", "sunrise_image")]
+script = ExtResource("1_tn28x")
+menu = NodePath("MenuLayout")
+game_scene = ExtResource("3_tn28x")
+sunrise_image = NodePath("SunriseImage")
+
+[node name="SunriseImage" parent="." instance=ExtResource("2_tn28x")]
+sun_progress = 50.0
+
+[node name="MenuLayout" parent="." node_paths=PackedStringArray("game_manager") instance=ExtResource("3_lxbe4")]
+game_manager = NodePath("..")

@@ -1,0 +1,110 @@
+[gd_scene load_steps=6 format=3 uid="uid://45fhrklnafnt"]
+
+[ext_resource type="Script" uid="uid://bbg3av4d1a0l2" path="res://Game/Scripts/UI/MainMenu.gd" id="1_humqo"]
+[ext_resource type="PackedScene" uid="uid://dhksvttb8b00" path="res://Game/Scenes/UI/SimpleButton.tscn" id="2_rnaqo"]
+[ext_resource type="Texture2D" uid="uid://cwdirrcki3w22" path="res://Game/Sprites/UI/Icon_ArrowLeft.png" id="3_ptp06"]
+[ext_resource type="FontFile" uid="uid://cfgjxqr22llhe" path="res://Game/Font/EBGaramond-Medium.ttf" id="4_ycg1d"]
+[ext_resource type="Texture2D" uid="uid://bec0cqvshybrx" path="res://Game/Sprites/UI/Icon_ArrowRight.png" id="5_aoqxq"]
+
+[node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1097.0
+offset_bottom = 638.0
+script = ExtResource("1_humqo")
+lbl_key = NodePath("MarginContainer/VBoxContainer/KeySelection/Lbl_Key")
+lbl_type = NodePath("MarginContainer/VBoxContainer/TypeSelection/Lbl_Type")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -134.0
+offset_right = 200.0
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="KeySelection" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="Btn_Left" parent="MarginContainer/VBoxContainer/KeySelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_texture = ExtResource("3_ptp06")
+
+[node name="Lbl_Key" type="Label" parent="MarginContainer/VBoxContainer/KeySelection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
+theme_override_fonts/font = ExtResource("4_ycg1d")
+theme_override_font_sizes/font_size = 42
+text = "C#"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Btn_Right" parent="MarginContainer/VBoxContainer/KeySelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_texture = ExtResource("5_aoqxq")
+
+[node name="TypeSelection" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="Btn_Left" parent="MarginContainer/VBoxContainer/TypeSelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_texture = ExtResource("3_ptp06")
+
+[node name="Lbl_Type" type="Label" parent="MarginContainer/VBoxContainer/TypeSelection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
+theme_override_fonts/font = ExtResource("4_ycg1d")
+theme_override_font_sizes/font_size = 20
+text = "Minor - natural"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Btn_Right" parent="MarginContainer/VBoxContainer/TypeSelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_texture = ExtResource("5_aoqxq")
+
+[node name="DifficultySelection" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Btn_Easy" parent="MarginContainer/VBoxContainer/DifficultySelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Btn_Medium" parent="MarginContainer/VBoxContainer/DifficultySelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Btn_Hard" parent="MarginContainer/VBoxContainer/DifficultySelection" instance=ExtResource("2_rnaqo")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Left" to="." method="_on_btn_key_left_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Right" to="." method="_on_btn_key_right_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/TypeSelection/Btn_Left" to="." method="_on_btn_type_left_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/TypeSelection/Btn_Right" to="." method="_on_btn_type_right_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/DifficultySelection/Btn_Easy" to="." method="_on_btn_easy_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/DifficultySelection/Btn_Medium" to="." method="_on_btn_medium_button_down"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/DifficultySelection/Btn_Hard" to="." method="_on_btn_hard_button_down"]

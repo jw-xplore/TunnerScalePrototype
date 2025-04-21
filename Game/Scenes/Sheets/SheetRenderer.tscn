@@ -19,8 +19,6 @@ note_quarter_scene = ExtResource("3_cyy31")
 lines_holder = NodePath("Lines")
 notes_holder = NodePath("Notes")
 check_area = NodePath("CheckArea")
-remove_note_position = null
-new_sequence_position = null
 
 [node name="Lines" type="Control" parent="."]
 anchors_preset = 0
@@ -33,8 +31,19 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="CheckArea" type="TextureRect" parent="."]
+modulate = Color(0.908653, 0.887713, 0.629384, 1)
 layout_mode = 0
 offset_top = -16.0
 offset_right = 40.0
 offset_bottom = 124.0
+texture = ExtResource("4_v0icx")
+
+[node name="CheckArea" type="TextureRect" parent="CheckArea"]
+modulate = Color(0, 0, 0, 0.196078)
+z_index = -1
+layout_mode = 0
+offset_left = 1.5
+offset_top = 1.5
+offset_right = 41.5
+offset_bottom = 141.5
 texture = ExtResource("4_v0icx")

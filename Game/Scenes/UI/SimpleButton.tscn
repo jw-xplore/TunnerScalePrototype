@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhksvttb8b00"]
+
+[ext_resource type="Script" uid="uid://clsrij720pi0f" path="res://Game/Scripts/UI/SimpleButton.gd" id="1_8sq5y"]
+[ext_resource type="Texture2D" uid="uid://cl77lk1j1f5k8" path="res://Game/Sprites/UI/Button_base.png" id="1_p4bdb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8sq5y"]
+
+[node name="SimpleButton" type="Button" node_paths=PackedStringArray("icon_node")]
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq5y")
+flat = true
+script = ExtResource("1_8sq5y")
+icon_node = NodePath("Background/Icon")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -33.5
+offset_right = 33.5
+offset_bottom = 33.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_p4bdb")
+
+[node name="Shadow" type="TextureRect" parent="Background"]
+modulate = Color(0, 0, 0, 0.196078)
+z_index = -1
+layout_mode = 0
+offset_left = 1.5
+offset_top = 1.5
+offset_right = 68.5
+offset_bottom = 68.5
+texture = ExtResource("1_p4bdb")
+
+[node name="Icon" type="TextureRect" parent="Background"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 63.0
+expand_mode = 1
+stretch_mode = 3

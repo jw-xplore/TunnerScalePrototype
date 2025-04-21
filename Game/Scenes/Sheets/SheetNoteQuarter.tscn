@@ -33,6 +33,34 @@ offset_right = 34.0
 offset_bottom = 20.0
 texture = ExtResource("1_f44g6")
 
+[node name="Shadow" type="Control" parent="NoteParts"]
+modulate = Color(0, 0, 0, 0.196078)
+z_index = -1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.5
+offset_top = 1.5
+offset_right = 41.5
+offset_bottom = 41.5
+
+[node name="Leg" type="TextureRect" parent="NoteParts/Shadow"]
+modulate = Color(0.827451, 0.827451, 0.827451, 1)
+layout_mode = 0
+offset_left = 28.0
+offset_top = -202.0
+offset_right = 38.0
+offset_bottom = -2.0
+scale = Vector2(0.5, 1)
+texture = ExtResource("2_1it1h")
+
+[node name="Left" type="TextureRect" parent="NoteParts/Shadow"]
+layout_mode = 0
+offset_left = -34.0
+offset_top = -20.0
+offset_right = 34.0
+offset_bottom = 20.0
+texture = ExtResource("1_f44g6")
+
 [node name="Sharp" type="Label" parent="."]
 layout_mode = 0
 offset_left = -74.0

@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://da2mi25h7x2cu"]
+[gd_scene load_steps=9 format=3 uid="uid://da2mi25h7x2cu"]
 
 [ext_resource type="Script" uid="uid://t2wocd1wtyks" path="res://Game/Levels/ToneGame.gd" id="1_1yube"]
 [ext_resource type="Script" uid="uid://r3wuy457n38k" path="res://Game/Scripts/ToneRecognition.gd" id="1_c4aws"]
 [ext_resource type="AudioStream" uid="uid://dww8xs5yd537n" path="res://Game/Audio/Clicks/switch1.ogg" id="2_l3ppg"]
 [ext_resource type="Script" uid="uid://53moi3obviwh" path="res://Game/Scripts/ScalesManager.gd" id="4_2holh"]
+[ext_resource type="PackedScene" uid="uid://dhksvttb8b00" path="res://Game/Scenes/UI/SimpleButton.tscn" id="5_c8ytr"]
+[ext_resource type="Texture2D" uid="uid://kyk8n7c058xu" path="res://Game/Sprites/UI/Icon_Cancel.png" id="6_n8a3h"]
 [ext_resource type="PackedScene" uid="uid://oce7o2nmo5cb" path="res://Game/Scenes/Sheets/SheetRenderer.tscn" id="9_abuft"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_c4aws"]
@@ -123,6 +125,7 @@ text = "Score: "
 horizontal_alignment = 1
 
 [node name="SettingsUI" type="Control" parent="NoteUI"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -257,8 +260,18 @@ offset_top = 320.0
 offset_right = 131.0
 offset_bottom = 320.0
 tone_game = NodePath("../..")
-remove_note_position = -200.0
 new_sequence_position = 600.0
+
+[node name="SimpleButton" parent="NoteUI" instance=ExtResource("5_c8ytr")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -84.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 84.0
+grow_horizontal = 0
+icon_texture = ExtResource("6_n8a3h")
 
 [node name="Metronome" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_l3ppg")
@@ -269,7 +282,10 @@ stream = SubResource("AudioStreamMicrophone_c4aws")
 autoplay = true
 bus = &"Record"
 
+[node name="Environment" type="Node2D" parent="."]
+
 [connection signal="value_changed" from="NoteUI/SettingsUI/VolCutSettings/VolFilterSlider" to="ToneRecognition" method="_on_vol_filter_slider_value_changed"]
 [connection signal="value_changed" from="NoteUI/SettingsUI/BPMSettings/BPMSlider" to="." method="_on_bpm_slider_value_changed"]
 [connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList" to="." method="_on_scale_key_list_item_selected"]
 [connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList" to="." method="_on_scale_type_list_item_selected"]
+[connection signal="button_down" from="NoteUI/SimpleButton" to="." method="_on_simple_button_button_down"]

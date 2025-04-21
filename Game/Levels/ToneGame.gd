@@ -2,6 +2,7 @@ extends Node2D
 class_name ToneGameManager
 
 # Game and setup
+var game_manager: GameManager
 @export var bpm: float = 100
 @export var tones: Array[String]
 @export var key = 0
@@ -11,6 +12,8 @@ class_name ToneGameManager
 @export var sheet_renderer: SheetRenderer
 @export var wait_for_beat: int = 4
 var beats_passed: int = 0
+
+var sunriseImage: SunriseImage
 
 # UI
 @export var lbl_current_tone: Label
@@ -26,6 +29,9 @@ var current_pos = 0
 var last_note_hit = -1
 
 var score = 0
+var finished_times: int = 0
+var furtest_progression: int = 0
+var total_progression: int = 0
 
 var has_failed = false
 var run_metro = true
@@ -39,6 +45,9 @@ signal on_scale_fail
 # Overrides
 
 func _ready() -> void:
+	finished_times = 0
+	furtest_progression = 0
+	
 	bpm_time = 60.0 / bpm
 	
 	slider_bpm.value = bpm
@@ -72,6 +81,11 @@ func _process(delta: float) -> void:
 	sheet_renderer.move_notes(delta)
 	if sheet_renderer.can_create_new_sequence():
 		sheet_renderer.create_sequece(tones)
+		
+	# Update sunrise image
+	if sunriseImage != null:
+		var prog: float = float(furtest_progression) / 8.0
+		sunriseImage.set_progress(prog)
 
 # Custom audio
 
@@ -102,6 +116,12 @@ func tone_progress(delta: float):
 			tone_recognition.clear_current_note()
 			on_scale_progress.emit()
 			
+			# Check overall progress
+			var finished = finished_times * MusicConstants.PROGRESSIONS[itemlist_scale_type.get_selected_items()[0]].size()
+			if (current_pos + finished) > furtest_progression:
+				furtest_progression = last_note_hit + finished
+				
+			
 			# Add score for half
 			if last_note_hit == (len(tones) / 2):
 				score += 1
@@ -114,6 +134,8 @@ func tone_progress(delta: float):
 				score += 3
 				current_pos = 0
 				last_note_hit = -1
+				
+				finished_times += 1
 				on_scale_finished.emit()
 
 		else:
@@ -177,3 +199,7 @@ func _on_scale_type_list_item_selected(index: int) -> void:
 	reversed.reverse()
 	tones.append_array(reversed)
 	sheet_renderer.create_sequece(tones)
+
+
+func _on_simple_button_button_down() -> void:
+	game_manager.activate_menu(true)
