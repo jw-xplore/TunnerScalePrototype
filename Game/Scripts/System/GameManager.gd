@@ -30,8 +30,9 @@ func activate_menu(menu_active: bool):
 
 func setup_game(bpm: int, repetitions: int, key: int, type: int):
 	tone_game.slider_bpm.value = bpm
-	var reps = MusicConstants.PROGRESSIONS[type].size() * repetitions
-	tone_game.total_progression = reps * 2
+	var reps = (MusicConstants.PROGRESSIONS[type].size() * 2 -2) * repetitions
+	tone_game.target_progression = reps
+	tone_game.reps_to_do = repetitions
 	
 	tone_game.itemlist_scale_key.select(key)
 	tone_game.itemlist_scale_type.select(type)

@@ -1,6 +1,7 @@
 extends Node2D
 class_name SunriseImage
 
+@export var stages = 6
 @export var change_speed: float = 1
 @export var progress: float = 0
 @export var sun_progress: float = 25

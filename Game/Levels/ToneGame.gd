@@ -18,6 +18,7 @@ var sunriseImage: SunriseImage
 # UI
 @export var lbl_current_tone: Label
 @export var lbl_score: Label
+@export var lbl_repetitions: Label
 @export var slider_bpm: Slider
 @export var lbl_bpm: Label
 @export var itemlist_scale_key: ItemList
@@ -31,7 +32,8 @@ var last_note_hit = -1
 var score = 0
 var finished_times: int = 0
 var furtest_progression: int = 0
-var total_progression: int = 0
+var target_progression: int = 0
+var reps_to_do: int = 0
 
 var has_failed = false
 var run_metro = true
@@ -77,7 +79,7 @@ func _process(delta: float) -> void:
 	#var time = metro.get_playback_position() + AudioServer.get_time_since_last_mix()
 	#time -= AudioServer.get_output_latency()
 	sheet_renderer.move_notes(delta)
-	if sheet_renderer.can_create_new_sequence():
+	if sheet_renderer.can_create_new_sequence() and reps_to_do > 1:
 		sheet_renderer.create_sequece(tones)
 	
 	if run_metro:
@@ -86,8 +88,8 @@ func _process(delta: float) -> void:
 		
 	# Update sunrise image
 	if sunriseImage != null:
-		var prog: float = float(furtest_progression) / 8.0
-		sunriseImage.set_progress(prog)
+		var prog: float = float(furtest_progression) / float(target_progression)
+		sunriseImage.set_progress(prog * sunriseImage.stages)
 
 # Custom audio
 
@@ -140,7 +142,13 @@ func tone_progress(delta: float):
 				last_note_hit = -1
 				
 				finished_times += 1
+				reps_to_do -= 1
 				on_scale_finished.emit()
+				
+				# All finished - win
+				# TODO: Saving of success
+				if reps_to_do <= 0:
+					game_manager.activate_menu(true)
 
 		else:
 			# Restart if failed
@@ -161,14 +169,17 @@ func restart_progression():
 	beats_passed = 0
 	
 func progression_ui():
-	lbl_current_tone.text = "Play note: " + tones[current_pos]
+	lbl_current_tone.text = "Tone: " + tones[current_pos]
+	lbl_repetitions.text = "Repetitions: " + str(reps_to_do)
 	lbl_score.text = "Score: " + str(score)
 	
 	# Show success color
+	"""
 	if current_pos == last_note_hit:
 		lbl_current_tone.modulate = Color.LIME_GREEN
 	else:
 		lbl_current_tone.modulate = Color.WHITE
+	"""
 	
 # Character callback
 func on_character_reach_target():
@@ -185,25 +196,26 @@ func _on_bpm_slider_value_changed(value: float) -> void:
 func _on_scale_key_list_item_selected(index: int) -> void:
 	var type: ScalesManager.EScaleTypes = itemlist_scale_type.get_selected_items()[0]
 	tones = scaleManager.generate_scale(itemlist_scale_key.get_item_text(index) , ScalesManager.EScaleTypes.Major)
-	
-	var reversed = []
-	reversed.append_array(tones)
-	reversed.reverse()
-	tones.append_array(reversed)
-	sheet_renderer.clear_sheet()
-	sheet_renderer.create_sequece(tones)
-	print("Current scale: " + str(tones))
+	add_reversed()
 
 func _on_scale_type_list_item_selected(index: int) -> void:
 	var key: String = itemlist_scale_key.get_item_text(itemlist_scale_key.get_selected_items()[0])
 	tones = scaleManager.generate_scale(key, index)
-	
+	add_reversed()
+
+func add_reversed():
+	# Add down scale
 	var reversed = []
 	reversed.append_array(tones)
 	reversed.reverse()
+	# Cut Key notes from reversed
+	reversed.remove_at(reversed.size() - 1)
+	reversed.remove_at(0)
+	
 	tones.append_array(reversed)
+	sheet_renderer.clear_sheet()
 	sheet_renderer.create_sequece(tones)
-
+	print("Current scale: " + str(tones))
 
 func _on_simple_button_button_down() -> void:
 	game_manager.activate_menu(true)
