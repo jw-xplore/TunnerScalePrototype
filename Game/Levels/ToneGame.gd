@@ -73,14 +73,16 @@ func _process(delta: float) -> void:
 	if running == false:
 		return
 		
-	if run_metro:
-		run_metronome(delta)
-	progression_ui()
-	
 	# Sheets rendered update
+	#var time = metro.get_playback_position() + AudioServer.get_time_since_last_mix()
+	#time -= AudioServer.get_output_latency()
 	sheet_renderer.move_notes(delta)
 	if sheet_renderer.can_create_new_sequence():
 		sheet_renderer.create_sequece(tones)
+	
+	if run_metro:
+		run_metronome(delta)
+	progression_ui()
 		
 	# Update sunrise image
 	if sunriseImage != null:
@@ -96,6 +98,8 @@ func run_metronome(delta: float):
 		if beats_passed >= wait_for_beat:
 			tone_progress(delta)
 	else:
+		sheet_renderer.fix_notes_movement(beats_passed - wait_for_beat + beat_offset)
+		metro.stop()
 		metro.play()
 		bpm_time_count = 0
 		beats_passed += 1

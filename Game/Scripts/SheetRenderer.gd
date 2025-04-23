@@ -96,9 +96,20 @@ func note_visibility(note: Control):
 	if note.global_position.x > fade_size:
 		note.modulate.a = (fade_size - (note.global_position.x - fade_size)) / fade_size
 		
+var move_track: float = 0
+var time_track: float = 0
+
 func move_notes(delta: float):
-	var move = (tone_game.bpm / 60) * note_distance * delta
+	var bpm = tone_game.bpm
+	var move_per_sec = (tone_game.bpm / 60) * note_distance
+	var move = move_per_sec * delta
+	
+	#move_track += move
+	#time_track += delta
 	notes_holder.position -= Vector2(move, 0)
+	
+func fix_notes_movement(beat: int):
+	notes_holder.position = Vector2(-note_distance * beat, notes_holder.position.y)
 
 func note_node_id(note: Node) -> int:
 	var i: int = 0
@@ -114,8 +125,8 @@ func set_notes_position(beats: int):
 	notes_holder.position = Vector2(-pos, 0)
 	
 func set_check_area_beat_offset(beats: int):
-	var pos = note_distance * (beats)
-	var area_w = check_area.texture.get_width() / 2
+	var pos = note_distance * beats
+	var area_w = check_area.size.x / 2
 	check_area.position = Vector2(-pos - area_w, check_area.position.y)
 
 func can_create_new_sequence() -> bool:
@@ -136,5 +147,6 @@ func tested_note_feedback(success: bool):
 	# Color note
 	if success:
 		tested_note.modulate = Color.AQUAMARINE
+		print("Hit with offset: " + str(check_area.global_position.x - tested_note.global_position.x))
 	else:
 		tested_note.modulate = Color.FIREBRICK
