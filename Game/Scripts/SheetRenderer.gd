@@ -40,7 +40,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# Process note visibility
 	for note in notes_holder.get_children():
-		note_visibility(note)
+		if note.global_position.x > fade_size:
+			note.modulate.a = (fade_size - (note.global_position.x - fade_size)) / fade_size
 		
 	# Remove notes if too left
 	for note in notes_holder.get_children():
@@ -91,10 +92,6 @@ func clear_sheet():
 	for note in notes_holder.get_children():
 		notes_holder.remove_child(note)
 		note.queue_free()
-
-func note_visibility(note: Control):
-	if note.global_position.x > fade_size:
-		note.modulate.a = (fade_size - (note.global_position.x - fade_size)) / fade_size
 		
 var move_track: float = 0
 var time_track: float = 0

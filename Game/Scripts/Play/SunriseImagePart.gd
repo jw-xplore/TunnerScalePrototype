@@ -3,11 +3,16 @@ class_name SunriseImagePart
 
 @export var colors: Array[Color]
 
+var pos: float = 0
+var max: int = 0
+var start: Color
+var target: Color
+var col: Color
+var perc: float
+
 func coloring(progress: float):
-	var pos = floori(progress)
-	var max = colors.size() - 1
-	var start: Color
-	var target: Color
+	pos = floori(progress)
+	max = colors.size() - 1
 	
 	if (pos + 1) < max:
 		start = colors[pos]
@@ -17,9 +22,10 @@ func coloring(progress: float):
 		start = colors[pos]
 		target = colors[max]
 	
-	var perc = progress - pos
+	perc = progress - pos
 	
-	var r = (target.r - start.r) * perc + start.r
-	var g = (target.g - start.g) * perc + start.g
-	var b = (target.b - start.b) * perc + start.b
-	modulate = Color(r, g, b, 1)
+	col.r = (target.r - start.r) * perc + start.r
+	col.g = (target.g - start.g) * perc + start.g
+	col.b = (target.b - start.b) * perc + start.b
+
+	modulate = col

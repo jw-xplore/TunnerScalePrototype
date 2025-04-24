@@ -194,13 +194,12 @@ func _on_bpm_slider_value_changed(value: float) -> void:
 
 
 func _on_scale_key_list_item_selected(index: int) -> void:
-	var type: ScalesManager.EScaleTypes = itemlist_scale_type.get_selected_items()[0]
 	tones = scaleManager.generate_scale(itemlist_scale_key.get_item_text(index) , ScalesManager.EScaleTypes.Major)
 	add_reversed()
 
 func _on_scale_type_list_item_selected(index: int) -> void:
-	var key: String = itemlist_scale_key.get_item_text(itemlist_scale_key.get_selected_items()[0])
-	tones = scaleManager.generate_scale(key, index)
+	var k: String = itemlist_scale_key.get_item_text(itemlist_scale_key.get_selected_items()[0])
+	tones = scaleManager.generate_scale(k, index)
 	add_reversed()
 
 func add_reversed():

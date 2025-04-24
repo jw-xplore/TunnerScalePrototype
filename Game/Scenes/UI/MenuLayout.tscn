@@ -8,9 +8,11 @@
 
 [node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type")]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 1097.0
-offset_bottom = 638.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_humqo")
 lbl_key = NodePath("MarginContainer/VBoxContainer/KeySelection/Lbl_Key")
 lbl_type = NodePath("MarginContainer/VBoxContainer/TypeSelection/Lbl_Type")

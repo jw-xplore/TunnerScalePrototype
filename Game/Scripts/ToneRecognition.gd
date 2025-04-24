@@ -29,18 +29,14 @@ var permissions
 @export var slider_vol_filter: Slider
 @export var lbl_vol_filter: Label
 
+const energy_boost = 0.001 * 2
+
 func _ready() -> void:
-	# Handle permision
-	if Engine.has_singleton("AndroidPermissions"):
-		permissions = Engine.get_singleton("AndroidPermissions")
-		permissions.init(get_instance_id(), false)
-		
-	if permissions != null and !permissions.isRecordAudioPermissionGranted():
-		permissions.requestRecordAudioPermission()
-	
 	# Setup bus effects
 	var idx := AudioServer.get_bus_index("Record")
 	effect = AudioServer.get_bus_effect(idx, 0)
+	effect.set_recording_active(true)
+	
 	spectrum = AudioServer.get_bus_effect_instance(idx, 1)
 	
 	# Setup UI
@@ -48,53 +44,36 @@ func _ready() -> void:
 	
 	clear_current_note()
 	
-func _process(delta: float) -> void:
-	processSound()
-	# UI
-	lbl_tone.text = "Tone: " + current_note + str(current_octave) + " (" + str(current_fq) + " Hz)"
 	lbl_record_exist.text = "Record eff.: " + str(effect != null)
 	lbl_spectrum_exist.text = "Spectrum eff.: " + str(spectrum != null)
+	
+func _process(delta: float) -> void:
+	if (spectrum != null):
+		processSound()
+	# UI
+	lbl_tone.text = "Tone: " + current_note + str(current_octave) + " (" + str(current_fq) + " Hz)"
 
 # Notes detection handling
 func processSound():
-	var prev_hz := 0.0
+	var prev_hz: float = 0.0
+	var energies: Array[float] = []
 	
-	var totalEnergy = 0.0
-	var energies = []
-	
-	var largestRange = 0
-	var largestRangeFq = 0
-	var valumeOfLargestRange = 0
+	# Loop variables
+	var hz: float = 0
+	var magnitude: float = 0
+	var energy: float = 0
 
 	for i in range(1, VU_COUNT + 1):
-		var hz := i * FREQ_MAX / VU_COUNT
-		var magnitude := spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
-		var energy := clampf((MIN_DB + linear_to_db(magnitude)) / MIN_DB, 0, 1)
-		energies.append(energy * energy_boost(hz, FREQ_MAX, 2))
+		hz = i * FREQ_MAX / VU_COUNT
+		magnitude = spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
+		energy = clampf((MIN_DB + linear_to_db(magnitude)) / MIN_DB, 0, 1)
+		energy *= (FREQ_MAX - hz) * energy_boost # Boost lower FQ
+		energies.append(energy)
+		#energies.append(energy * energy_boost(hz, FREQ_MAX, 2))
 		prev_hz = hz
-		
-		# Sum frequencies
-		totalEnergy += energy
-		
-		if largestRange < energy:
-			valumeOfLargestRange = energy
-			largestRange = energy
-			largestRangeFq = hz
 			
 	var ac = autocorrelation(energies)
 	playedNote(ac)
-			
-	"""
-	if valumeOfLargestRange >= ignore_tone_below_volume:
-		#print("loudest: " + str(valumeOfLargestRange) + " DB") 
-		playedNote(largestRangeFq)
-	else:
-		#print("ignore input")
-		pass
-	"""
-
-func energy_boost(frequency: float, max_fq: float, boost: float) -> float:
-	return (max_fq - frequency) * 0.001 * boost
 
 func playedNote(frequency) -> void:
 	if frequency <= 0:
@@ -110,12 +89,14 @@ func playedNote(frequency) -> void:
 	
 func autocorrelation(energies: Array):
 	#var correlations = []
-	var s = energies.size()
-	var largest_correlation = energies[0] * energies[0]
-	var lagest_pos = 0
+	var s: int = energies.size()
+	var largest_correlation: float = energies[0] * energies[0]
+	var lagest_pos: int = 0
 	
-	for lag in range(1, s):
-		var cor = energies[lag] * energies[(lag * 2) % s]
+	var cor: float
+	
+	for lag in range(1, energies.size()):
+		cor = energies[lag] * energies[(lag * 2) % s]
 		if largest_correlation < cor:
 			largest_correlation = cor
 			lagest_pos = lag

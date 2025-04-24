@@ -21,8 +21,10 @@ driver/enable_input=true
 
 [display]
 
-window/size/viewport_width=1100
-window/size/viewport_height=640
+window/size/viewport_width=1480
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [dotnet]
 
@@ -30,4 +32,5 @@ project/assembly_name="MobileTunnerTest"
 
 [rendering]
 
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
