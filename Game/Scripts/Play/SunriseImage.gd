@@ -19,7 +19,6 @@ func _ready() -> void:
 	sun_y = sun.global_position.y
 
 func _process(delta: float) -> void:
-	
 	# Move progress
 	progress_current = lerpf(progress_current, progress, change_speed * delta)
 	

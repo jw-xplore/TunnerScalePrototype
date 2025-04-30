@@ -13,6 +13,7 @@
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "tone_recognition", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "itemlist_scale_key", "itemlist_scale_type")]
 script = ExtResource("1_1yube")
+_debug_note_success = true
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
 tone_recognition = NodePath("ToneRecognition")

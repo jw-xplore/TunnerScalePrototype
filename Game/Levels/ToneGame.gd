@@ -3,6 +3,7 @@ class_name ToneGameManager
 
 # Game and setup
 var game_manager: GameManager
+@export var _debug_note_success: bool = false
 @export var bpm: float = 100
 @export var tones: Array[String]
 @export var key = 0
@@ -115,8 +116,10 @@ func tone_progress(delta: float):
 		# Check note was hit within current beat
 		var cur_note = tone_recognition.current_note + str(tone_recognition.current_octave)
 		
+		var pas: bool = (_debug_note_success == true) or cur_note == tones[current_pos]
+		
 		if (last_note_hit + 1) == current_pos and \
-		cur_note == tones[current_pos]:
+		pas:
 			last_note_hit += 1
 			sheet_renderer.tested_note_feedback(true)
 			tone_recognition.clear_current_note()
@@ -148,6 +151,7 @@ func tone_progress(delta: float):
 				# All finished - win
 				# TODO: Saving of success
 				if reps_to_do <= 0:
+					game_manager.save_active_level_completed()
 					game_manager.activate_menu(true)
 
 		else:

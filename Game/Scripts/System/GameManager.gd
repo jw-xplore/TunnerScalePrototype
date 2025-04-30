@@ -4,8 +4,10 @@ class_name GameManager
 @export var menu: MainMenu
 @export var game_scene: PackedScene
 @export var sunrise_image: SunriseImage
+@export var save_manager: SaveManager
 
 var tone_game: ToneGameManager
+var active_level: String
 
 func _ready() -> void:
 	# Permisions
@@ -20,16 +22,30 @@ func _ready() -> void:
 	# Run menu
 	activate_menu(true)
 	
+func _process(delta: float) -> void:
+	# Update image based on menu
+	if menu.visible == true:
+		if save_manager.levels_count > 0:
+			var comp = save_manager.completed_count
+			var total = save_manager.levels_count
+			var prog = (float(comp) / float(total))
+			sunrise_image.set_progress(prog * sunrise_image.stages)
+	else:
+		pass
+		#sunrise_image.set_progress(tone_game.pr)
+	
+	
 func activate_menu(menu_active: bool):
 	# Menu
 	menu.visible = menu_active
 	menu.set_process(menu_active)
+	menu.update_finished_levels()
 	
 	# Remove game
 	if menu_active and tone_game != null:
 		tone_game.queue_free()
 		tone_game = null
-		sunrise_image.set_progress(0)
+		#sunrise_image.set_progress(0)
 		deactivate_recording()
 		
 	# Game
@@ -58,7 +74,7 @@ func deactivate_recording():
 	effect.set_recording_active(false)
 	AudioServer.set_bus_effect_enabled(bus_idx, 0, false)
 
-func setup_game(bpm: int, repetitions: int, key: int, type: int):
+func setup_game(bpm: int, repetitions: int, key: int, type: int, lvl_id: int):
 	tone_game.slider_bpm.value = bpm
 	var reps = (MusicConstants.PROGRESSIONS[type].size() * 2 -2) * repetitions
 	tone_game.target_progression = reps
@@ -68,3 +84,9 @@ func setup_game(bpm: int, repetitions: int, key: int, type: int):
 	tone_game.itemlist_scale_type.select(type)
 	tone_game._on_scale_key_list_item_selected(key)
 	tone_game._on_scale_type_list_item_selected(type)
+
+	# Current level
+	active_level = save_manager.save_name_format(MusicConstants.TONE_NAMES[key], MusicConstants.PROGRESSION_NAMES[type], lvl_id)
+
+func save_active_level_completed():
+	save_manager.save_progress(active_level, true)

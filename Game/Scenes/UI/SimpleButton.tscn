@@ -12,6 +12,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_8sq5y")
 flat = true
 script = ExtResource("1_8sq5y")
 icon_node = NodePath("Background/Icon")
+highlight_color = Color(0.909804, 0.886275, 0.627451, 1)
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
