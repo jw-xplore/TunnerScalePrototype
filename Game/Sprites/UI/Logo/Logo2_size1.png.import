@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0kohmp2h2sxi"
-path="res://.godot/imported/Logo_size2.png-f1672ee2d6958baef0f0bd7a79cc7e01.ctex"
+uid="uid://dachi7liq3cvv"
+path="res://.godot/imported/Logo2_size1.png-95b87a6f5e232952295db7ce4dcaa0a9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game/Sprites/UI/Logo_size2.png"
-dest_files=["res://.godot/imported/Logo_size2.png-f1672ee2d6958baef0f0bd7a79cc7e01.ctex"]
+source_file="res://Game/Sprites/UI/Logo/Logo2_size1.png"
+dest_files=["res://.godot/imported/Logo2_size1.png-95b87a6f5e232952295db7ce4dcaa0a9.ctex"]
 
 [params]
 

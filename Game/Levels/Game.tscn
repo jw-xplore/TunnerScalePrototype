@@ -1,19 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1fluq8sf3vbq"]
+[gd_scene load_steps=8 format=3 uid="uid://d1fluq8sf3vbq"]
 
 [ext_resource type="Script" uid="uid://dio83vf5wotg7" path="res://Game/Scripts/System/GameManager.gd" id="1_tn28x"]
 [ext_resource type="PackedScene" uid="uid://csveudvowtccw" path="res://Game/Scenes/Play/SunriseImage.tscn" id="2_tn28x"]
 [ext_resource type="PackedScene" uid="uid://tbikg2w2ue78" path="res://Game/Scenes/Systems/SaveManager.tscn" id="3_dd2nj"]
 [ext_resource type="PackedScene" uid="uid://45fhrklnafnt" path="res://Game/Scenes/UI/MenuLayout.tscn" id="3_lxbe4"]
 [ext_resource type="PackedScene" uid="uid://da2mi25h7x2cu" path="res://Game/Levels/TestLevel.tscn" id="3_tn28x"]
+[ext_resource type="Script" uid="uid://r3wuy457n38k" path="res://Game/Scripts/ToneRecognition.gd" id="4_dd2nj"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("menu", "sunrise_image", "save_manager")]
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_dd2nj"]
+
+[node name="Game" type="Node" node_paths=PackedStringArray("menu", "sunrise_image", "save_manager", "tone_recognition")]
 script = ExtResource("1_tn28x")
 menu = NodePath("MenuLayout")
 game_scene = ExtResource("3_tn28x")
 sunrise_image = NodePath("SunriseImage")
 save_manager = NodePath("SaveManager")
+tone_recognition = NodePath("ToneRecognition")
 
 [node name="SaveManager" parent="." instance=ExtResource("3_dd2nj")]
+
+[node name="ToneRecognition" type="Node" parent="."]
+script = ExtResource("4_dd2nj")
+
+[node name="AudioStreamRecord" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_dd2nj")
+autoplay = true
+bus = &"Record"
 
 [node name="SunriseImage" parent="." instance=ExtResource("2_tn28x")]
 sun_progress = 50.0

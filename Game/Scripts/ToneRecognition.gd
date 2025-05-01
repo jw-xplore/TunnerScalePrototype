@@ -15,8 +15,8 @@ const LOWEST_OCTAVE = 2
 @export_range(0.0, 0.5) var ignore_tone_below_volume = 0.25
 
 var note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-var current_note = note_names[0]
-var current_fq = 0
+var current_note: String = note_names[0]
+var current_fq: float = 0
 var current_octave: int = 0
 
 var permissions
@@ -25,6 +25,7 @@ var permissions
 @export var lbl_tone: Label
 @export var lbl_record_exist: Label
 @export var lbl_spectrum_exist: Label
+@export var lbl_can_record: Label
 
 @export var slider_vol_filter: Slider
 @export var lbl_vol_filter: Label
@@ -38,20 +39,24 @@ func _ready() -> void:
 	effect.set_recording_active(true)
 	
 	spectrum = AudioServer.get_bus_effect_instance(idx, 1)
-	
-	# Setup UI
-	slider_vol_filter.value = ignore_tone_below_volume
-	
 	clear_current_note()
 	
-	lbl_record_exist.text = "Record eff.: " + str(effect != null)
-	lbl_spectrum_exist.text = "Spectrum eff.: " + str(spectrum != null)
+	# Setup UI
+	if slider_vol_filter != null:
+		slider_vol_filter.value = ignore_tone_below_volume
+	
+	if lbl_record_exist != null:
+		lbl_record_exist.text = "Record eff.: " + str(effect != null)
+		
+	if lbl_spectrum_exist != null:
+		lbl_spectrum_exist.text = "Spectrum eff.: " + str(spectrum != null)
 	
 func _process(delta: float) -> void:
 	if (spectrum != null):
 		processSound()
 	# UI
-	lbl_tone.text = "Tone: " + current_note + str(current_octave) + " (" + str(current_fq) + " Hz)"
+	if lbl_tone != null:
+		lbl_tone.text = "Tone: " + current_note + str(current_octave) + " (" + str(current_fq) + " Hz)"
 
 # Notes detection handling
 func processSound():
@@ -64,7 +69,7 @@ func processSound():
 	var energy: float = 0
 
 	for i in range(1, VU_COUNT + 1):
-		hz = i * FREQ_MAX / VU_COUNT
+		hz = float(i) * FREQ_MAX / VU_COUNT
 		magnitude = spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
 		energy = clampf((MIN_DB + linear_to_db(magnitude)) / MIN_DB, 0, 1)
 		energy *= (FREQ_MAX - hz) * energy_boost # Boost lower FQ

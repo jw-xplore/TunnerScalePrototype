@@ -46,8 +46,8 @@ func generate_new_save_file():
 			for level in range(0, Difficulties.LEVELS.size()):
 				var ks = MusicConstants.TONE_NAMES[key]
 				var ts = MusicConstants.PROGRESSION_NAMES[type]
-				var name = save_name_format(ks, ts, level)
-				levels_completed[name] = false
+				var save_name = save_name_format(ks, ts, level)
+				levels_completed[save_name] = false
 				levels_count += 1
 				
 	var json_string = JSON.stringify(levels_completed, "\t")

@@ -1,6 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://45fhrklnafnt"]
 
 [ext_resource type="Script" uid="uid://bbg3av4d1a0l2" path="res://Game/Scripts/UI/MainMenu.gd" id="1_humqo"]
+[ext_resource type="Texture2D" uid="uid://c6qalq6hcnn3l" path="res://Game/Sprites/UI/Logo/Logo2_size2.png" id="2_aoqxq"]
 [ext_resource type="PackedScene" uid="uid://dhksvttb8b00" path="res://Game/Scenes/UI/SimpleButton.tscn" id="2_rnaqo"]
 [ext_resource type="Texture2D" uid="uid://cwdirrcki3w22" path="res://Game/Sprites/UI/Icon_ArrowLeft.png" id="3_ptp06"]
 [ext_resource type="FontFile" uid="uid://dvodb7k6kojyk" path="res://Game/Font/FaunaOne-Regular.ttf" id="5_2juxp"]
@@ -8,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://bp0mfukew62ts" path="res://Game/Sprites/UI/Icon_Easy.png" id="6_ycg1d"]
 [ext_resource type="Texture2D" uid="uid://dr37pchgtq3ak" path="res://Game/Sprites/UI/Icon_Medium.png" id="7_aoqxq"]
 [ext_resource type="Texture2D" uid="uid://xijgqs61jfmp" path="res://Game/Sprites/UI/Icon_Hard.png" id="8_2juxp"]
-[ext_resource type="Texture2D" uid="uid://cran02kca7l8t" path="res://Game/Sprites/UI/Logo_size1.5.png" id="9_aoqxq"]
 
 [node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type", "level_buttons_holder")]
 layout_mode = 3
@@ -28,7 +28,7 @@ offset_left = 100.0
 offset_top = 40.0
 offset_right = 367.0
 offset_bottom = 156.0
-texture = ExtResource("9_aoqxq")
+texture = ExtResource("2_aoqxq")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -37,10 +37,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -600.0
-offset_top = -60.0
-offset_right = -200.0
-offset_bottom = 338.0
+offset_left = -680.0
+offset_top = -160.0
+offset_right = -220.0
+offset_bottom = 292.0
 grow_horizontal = 0
 grow_vertical = 2
 
@@ -48,7 +48,7 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="KeySelection" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 70)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
 [node name="Btn_Left" parent="MarginContainer/VBoxContainer/KeySelection" instance=ExtResource("2_rnaqo")]
@@ -62,7 +62,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_fonts/font = ExtResource("5_2juxp")
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 40
 text = "C#"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -82,13 +82,13 @@ size_flags_horizontal = 3
 icon_texture = ExtResource("3_ptp06")
 
 [node name="Lbl_Type" type="Label" parent="MarginContainer/VBoxContainer/TypeSelection"]
-custom_minimum_size = Vector2(220, 0)
+custom_minimum_size = Vector2(260, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_fonts/font = ExtResource("5_2juxp")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 22
 text = "Minor - natural"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -111,7 +111,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DifficultySelection" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(270, 50)
+custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

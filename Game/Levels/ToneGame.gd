@@ -12,19 +12,23 @@ var game_manager: GameManager
 @export var scaleManager: ScalesManager
 @export var sheet_renderer: SheetRenderer
 @export var wait_for_beat: int = 4
+@export var beat_offset = 0
 var beats_passed: int = 0
 
 var sunriseImage: SunriseImage
 
 # UI
+@export_group("UI refs")
 @export var lbl_current_tone: Label
 @export var lbl_score: Label
 @export var lbl_repetitions: Label
 @export var slider_bpm: Slider
 @export var lbl_bpm: Label
+@export var lbl_recognized_tone: Label
 @export var itemlist_scale_key: ItemList
 @export var itemlist_scale_type: ItemList
-@export var beat_offset = 0
+@export var regognized_tone_ui_delay: float = 0.1
+var regognized_tone_ui_timer: float = 0
 
 var running = true
 var current_pos = 0
@@ -85,7 +89,7 @@ func _process(delta: float) -> void:
 	
 	if run_metro:
 		run_metronome(delta)
-	progression_ui()
+	progression_ui(delta)
 		
 	# Update sunrise image
 	if sunriseImage != null:
@@ -132,7 +136,7 @@ func tone_progress(delta: float):
 				
 			
 			# Add score for half
-			if last_note_hit == (len(tones) / 2):
+			if last_note_hit == (len(tones) / 2.0):
 				score += 1
 	else:
 		# Set next target note
@@ -172,10 +176,17 @@ func restart_progression():
 	has_failed = false
 	beats_passed = 0
 	
-func progression_ui():
+func progression_ui(delta: float):
 	lbl_current_tone.text = "Tone: " + tones[current_pos]
 	lbl_repetitions.text = "Repetitions: " + str(reps_to_do)
 	lbl_score.text = "Score: " + str(score)
+	
+	# Tone update
+	if regognized_tone_ui_timer > 0:
+		regognized_tone_ui_timer -= delta
+	else:
+		lbl_recognized_tone.text = "(" +  str(tone_recognition.current_fq) + " Hz) " + tone_recognition.current_note + str(tone_recognition.current_octave)
+		regognized_tone_ui_timer = regognized_tone_ui_delay
 	
 	# Show success color
 	"""

@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://da2mi25h7x2cu"]
+[gd_scene load_steps=9 format=3 uid="uid://da2mi25h7x2cu"]
 
 [ext_resource type="Script" uid="uid://t2wocd1wtyks" path="res://Game/Levels/ToneGame.gd" id="1_1yube"]
-[ext_resource type="Script" uid="uid://r3wuy457n38k" path="res://Game/Scripts/ToneRecognition.gd" id="1_c4aws"]
 [ext_resource type="AudioStream" uid="uid://dww8xs5yd537n" path="res://Game/Audio/Clicks/switch1.ogg" id="2_l3ppg"]
 [ext_resource type="Script" uid="uid://53moi3obviwh" path="res://Game/Scripts/ScalesManager.gd" id="4_2holh"]
 [ext_resource type="FontFile" uid="uid://cfgjxqr22llhe" path="res://Game/Font/EBGaramond-Medium.ttf" id="4_abuft"]
@@ -10,31 +9,22 @@
 [ext_resource type="Texture2D" uid="uid://kyk8n7c058xu" path="res://Game/Sprites/UI/Icon_Cancel.png" id="6_n8a3h"]
 [ext_resource type="PackedScene" uid="uid://oce7o2nmo5cb" path="res://Game/Scenes/Sheets/SheetRenderer.tscn" id="9_abuft"]
 
-[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_c4aws"]
-
-[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "tone_recognition", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "itemlist_scale_key", "itemlist_scale_type")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "lbl_recognized_tone", "itemlist_scale_key", "itemlist_scale_type")]
 script = ExtResource("1_1yube")
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
-tone_recognition = NodePath("ToneRecognition")
 scaleManager = NodePath("ScalesManager")
 sheet_renderer = NodePath("NoteUI/SheetRenderer")
+beat_offset = 1
 lbl_current_tone = NodePath("NoteUI/LblToneToHit")
 lbl_score = NodePath("NoteUI/ProgressionUI/LblToneScore")
 lbl_repetitions = NodePath("NoteUI/LblRepetitions")
 slider_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMSlider")
 lbl_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMValue")
+lbl_recognized_tone = NodePath("NoteUI/LblRecognizedTone")
 itemlist_scale_key = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList")
 itemlist_scale_type = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList")
-beat_offset = 1
-
-[node name="ToneRecognition" type="Node" parent="." node_paths=PackedStringArray("lbl_tone", "lbl_record_exist", "lbl_spectrum_exist", "slider_vol_filter", "lbl_vol_filter")]
-script = ExtResource("1_c4aws")
-lbl_tone = NodePath("../NoteUI/DebugUI/LblTone")
-lbl_record_exist = NodePath("../NoteUI/DebugUI/LblRecordExist")
-lbl_spectrum_exist = NodePath("../NoteUI/DebugUI/LblSpectrumExist")
-slider_vol_filter = NodePath("../NoteUI/SettingsUI/VolCutSettings/VolFilterSlider")
-lbl_vol_filter = NodePath("../NoteUI/SettingsUI/VolCutSettings/VolFilterValue")
+regognized_tone_ui_delay = 0.075
 
 [node name="ScalesManager" type="Node" parent="."]
 script = ExtResource("4_2holh")
@@ -42,6 +32,7 @@ script = ExtResource("4_2holh")
 [node name="NoteUI" type="CanvasLayer" parent="."]
 
 [node name="DebugUI" type="Control" parent="NoteUI"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -93,6 +84,22 @@ grow_vertical = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_fonts/font = ExtResource("4_abuft")
 text = "Spect"
+vertical_alignment = 1
+
+[node name="LblCanRecord" type="Label" parent="NoteUI/DebugUI"]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 208.0
+offset_top = 623.0
+offset_right = 255.0
+offset_bottom = 646.0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
+theme_override_fonts/font = ExtResource("4_abuft")
+text = "Can record: "
 vertical_alignment = 1
 
 [node name="SettingsUI" type="Control" parent="NoteUI"]
@@ -271,6 +278,25 @@ theme_override_fonts/font = ExtResource("5_abuft")
 theme_override_font_sizes/font_size = 36
 text = "Tone: "
 
+[node name="LblRecognizedTone" type="Label" parent="NoteUI"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -550.0
+offset_top = -105.0
+offset_right = -347.0
+offset_bottom = -57.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
+theme_override_fonts/font = ExtResource("5_abuft")
+theme_override_font_sizes/font_size = 20
+text = "A5 (440Hz) "
+horizontal_alignment = 2
+vertical_alignment = 2
+
 [node name="LblRepetitions" type="Label" parent="NoteUI"]
 offset_left = 361.0
 offset_top = 206.0
@@ -303,7 +329,6 @@ anchor_right = 1.0
 offset_left = -96.0
 offset_top = 32.0
 offset_right = -32.0
-offset_bottom = 96.0
 grow_horizontal = 0
 icon_texture = ExtResource("6_n8a3h")
 
@@ -311,14 +336,8 @@ icon_texture = ExtResource("6_n8a3h")
 stream = ExtResource("2_l3ppg")
 volume_db = -20.0
 
-[node name="AudioStreamRecord" type="AudioStreamPlayer" parent="."]
-stream = SubResource("AudioStreamMicrophone_c4aws")
-autoplay = true
-bus = &"Record"
-
 [node name="Environment" type="Node2D" parent="."]
 
-[connection signal="value_changed" from="NoteUI/SettingsUI/VolCutSettings/VolFilterSlider" to="ToneRecognition" method="_on_vol_filter_slider_value_changed"]
 [connection signal="value_changed" from="NoteUI/SettingsUI/BPMSettings/BPMSlider" to="." method="_on_bpm_slider_value_changed"]
 [connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList" to="." method="_on_scale_key_list_item_selected"]
 [connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList" to="." method="_on_scale_type_list_item_selected"]

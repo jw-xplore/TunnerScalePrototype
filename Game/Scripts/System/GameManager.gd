@@ -5,6 +5,7 @@ class_name GameManager
 @export var game_scene: PackedScene
 @export var sunrise_image: SunriseImage
 @export var save_manager: SaveManager
+@export var tone_recognition: ToneRecognition
 
 var tone_game: ToneGameManager
 var active_level: String
@@ -52,6 +53,7 @@ func activate_menu(menu_active: bool):
 	if not menu_active:
 		activate_recording()
 		tone_game = game_scene.instantiate()
+		tone_game.tone_recognition = tone_recognition
 		tone_game.sunriseImage = sunrise_image
 		tone_game.game_manager = self
 		add_child(tone_game)
