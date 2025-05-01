@@ -144,6 +144,6 @@ func tested_note_feedback(success: bool):
 	# Color note
 	if success:
 		tested_note.modulate = Color.AQUAMARINE
-		print("Hit with offset: " + str(check_area.global_position.x - tested_note.global_position.x))
+		#print("Hit with offset: " + str(check_area.global_position.x - tested_note.global_position.x))
 	else:
 		tested_note.modulate = Color.FIREBRICK

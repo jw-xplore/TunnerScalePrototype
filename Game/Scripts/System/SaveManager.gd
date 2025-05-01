@@ -28,6 +28,7 @@ func _ready() -> void:
 	else:
 		generate_new_save_file()
 	#print("levels_count: " + str(levels_count))
+	#completed_count = 40
 
 func save_name_format(key: String, type: String, level: int) -> String:
 	return key + SPLIT + type + SPLIT + str(level)
