@@ -86,6 +86,8 @@ func setup_game(bpm: int, repetitions: int, key: int, type: int, lvl_id: int):
 	tone_game.itemlist_scale_type.select(type)
 	tone_game._on_scale_key_list_item_selected(key)
 	tone_game._on_scale_type_list_item_selected(type)
+	
+	tone_game.tone_audio_player.stream = menu.get_current_tone()
 
 	# Current level
 	active_level = save_manager.save_name_format(MusicConstants.TONE_NAMES[key], MusicConstants.PROGRESSION_NAMES[type], lvl_id)

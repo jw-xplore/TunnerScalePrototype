@@ -1,16 +1,29 @@
-[gd_scene load_steps=10 format=3 uid="uid://45fhrklnafnt"]
+[gd_scene load_steps=23 format=3 uid="uid://45fhrklnafnt"]
 
 [ext_resource type="Script" uid="uid://bbg3av4d1a0l2" path="res://Game/Scripts/UI/MainMenu.gd" id="1_humqo"]
 [ext_resource type="Texture2D" uid="uid://c6qalq6hcnn3l" path="res://Game/Sprites/UI/Logo/Logo2_size2.png" id="2_aoqxq"]
+[ext_resource type="AudioStream" uid="uid://d3hbqsogetya0" path="res://Game/Audio/Tones/ToneC.wav" id="2_lox42"]
 [ext_resource type="PackedScene" uid="uid://dhksvttb8b00" path="res://Game/Scenes/UI/SimpleButton.tscn" id="2_rnaqo"]
+[ext_resource type="AudioStream" uid="uid://cugmw4rxmepce" path="res://Game/Audio/Tones/ToneCs.wav" id="3_26k17"]
 [ext_resource type="Texture2D" uid="uid://cwdirrcki3w22" path="res://Game/Sprites/UI/Icon_ArrowLeft.png" id="3_ptp06"]
+[ext_resource type="AudioStream" uid="uid://concmxv36vriu" path="res://Game/Audio/Tones/ToneD.wav" id="4_vxag4"]
 [ext_resource type="FontFile" uid="uid://dvodb7k6kojyk" path="res://Game/Font/FaunaOne-Regular.ttf" id="5_2juxp"]
 [ext_resource type="Texture2D" uid="uid://bec0cqvshybrx" path="res://Game/Sprites/UI/Icon_ArrowRight.png" id="5_aoqxq"]
+[ext_resource type="AudioStream" uid="uid://cpf6qall6rssl" path="res://Game/Audio/Tones/ToneDs.wav" id="5_divdf"]
+[ext_resource type="AudioStream" uid="uid://vvussegq410l" path="res://Game/Audio/Tones/ToneE.wav" id="6_hydpq"]
 [ext_resource type="Texture2D" uid="uid://bp0mfukew62ts" path="res://Game/Sprites/UI/Icon_Easy.png" id="6_ycg1d"]
 [ext_resource type="Texture2D" uid="uid://dr37pchgtq3ak" path="res://Game/Sprites/UI/Icon_Medium.png" id="7_aoqxq"]
+[ext_resource type="AudioStream" uid="uid://djyr6x55t00a4" path="res://Game/Audio/Tones/ToneF.wav" id="7_kr1u6"]
 [ext_resource type="Texture2D" uid="uid://xijgqs61jfmp" path="res://Game/Sprites/UI/Icon_Hard.png" id="8_2juxp"]
+[ext_resource type="AudioStream" uid="uid://dae862gwqsaor" path="res://Game/Audio/Tones/ToneFs.wav" id="8_r5m8m"]
+[ext_resource type="AudioStream" uid="uid://cnt38oybg4s3q" path="res://Game/Audio/Tones/ToneG.wav" id="9_i8cmy"]
+[ext_resource type="AudioStream" uid="uid://g4pajr6qsif7" path="res://Game/Audio/Tones/ToneGs.wav" id="10_rwlik"]
+[ext_resource type="AudioStream" uid="uid://bhs8d870whrgb" path="res://Game/Audio/Tones/ToneA.wav" id="11_ik5ew"]
+[ext_resource type="AudioStream" uid="uid://cy3qo1vqevtsx" path="res://Game/Audio/Tones/ToneAs.wav" id="12_3bwky"]
+[ext_resource type="AudioStream" uid="uid://ct561ilewjapt" path="res://Game/Audio/Tones/ToneB.wav" id="13_yq8wj"]
+[ext_resource type="AudioStream" uid="uid://cgwpt731tquyo" path="res://Game/Audio/Melodies/WinMelody_placeholder.wav" id="22_26k17"]
 
-[node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type", "level_buttons_holder")]
+[node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type", "level_buttons_holder", "audio_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,6 +34,8 @@ script = ExtResource("1_humqo")
 lbl_key = NodePath("MarginContainer/VBoxContainer/KeySelection/Lbl_Key")
 lbl_type = NodePath("MarginContainer/VBoxContainer/TypeSelection/Lbl_Type")
 level_buttons_holder = NodePath("MarginContainer/VBoxContainer/DifficultySelection")
+audio_player = NodePath("AudioStreamPlayer")
+tones_sounds = Array[AudioStream]([ExtResource("2_lox42"), ExtResource("3_26k17"), ExtResource("4_vxag4"), ExtResource("5_divdf"), ExtResource("6_hydpq"), ExtResource("7_kr1u6"), ExtResource("8_r5m8m"), ExtResource("9_i8cmy"), ExtResource("10_rwlik"), ExtResource("11_ik5ew"), ExtResource("12_3bwky"), ExtResource("13_yq8wj")])
 
 [node name="Logo" type="TextureRect" parent="."]
 layout_mode = 1
@@ -131,6 +146,9 @@ icon_texture = ExtResource("7_aoqxq")
 layout_mode = 2
 size_flags_horizontal = 3
 icon_texture = ExtResource("8_2juxp")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("22_26k17")
 
 [connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Left" to="." method="_on_btn_key_left_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Right" to="." method="_on_btn_key_right_button_down"]

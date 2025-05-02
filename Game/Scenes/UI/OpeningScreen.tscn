@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckobqb0dqtonp"]
+
+[ext_resource type="Script" uid="uid://dulnyf2o6jdv8" path="res://Game/Scripts/UI/OpeningScreen.gd" id="1_737i0"]
+[ext_resource type="Texture2D" uid="uid://drwlc1ggqenl3" path="res://Game/Sprites/SunriseImage/Square.png" id="1_stf4m"]
+[ext_resource type="Texture2D" uid="uid://cq11rlpmt5ik4" path="res://Game/Sprites/UI/Logo/Logo2_size4.png" id="2_stf4m"]
+[ext_resource type="AudioStream" uid="uid://c6vsum0adr72n" path="res://Game/Audio/Melodies/OpeningMelody_placeholder.wav" id="4_6qemx"]
+
+[node name="OpeningScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_737i0")
+show_time = 1.0
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.363357, 0.666751, 0.688686, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_stf4m")
+
+[node name="Logo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -64.0
+offset_right = 147.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_stf4m")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_6qemx")
+autoplay = true

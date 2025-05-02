@@ -30,6 +30,12 @@ var sunriseImage: SunriseImage
 @export var regognized_tone_ui_delay: float = 0.1
 var regognized_tone_ui_timer: float = 0
 
+@export_group("Audio")
+@export var win_audio_player: AudioStreamPlayer
+@export var win_audio_time: float = 2
+@export var tone_audio_player: AudioStreamPlayer
+
+var win: bool = false
 var running = true
 var current_pos = 0
 var last_note_hit = -1
@@ -61,13 +67,13 @@ func _ready() -> void:
 	
 	# Setup UI
 	itemlist_scale_key.clear()
-	for note in scaleManager.note_names:
+	for note in MusicConstants.TONE_NAMES:
 		itemlist_scale_key.add_item(note)
 		
 	itemlist_scale_key.select(0)
 	
 	itemlist_scale_type.clear()
-	for type in scaleManager.EScaleTypes:
+	for type in MusicConstants.EScaleTypes:
 		itemlist_scale_type.add_item(type)
 	
 	itemlist_scale_type.select(0)
@@ -77,14 +83,23 @@ func _ready() -> void:
 	sheet_renderer.set_check_area_beat_offset(-beat_offset)
 
 func _process(delta: float) -> void:
+	# Back to menu after delay
+	if win == true:
+		if win_audio_time <= 0:
+			game_manager.activate_menu(true)
+			print("Progression succesufully finished")
+		else:
+			win_audio_time -= delta
+	
+	# Manage run
 	if running == false:
 		return
-		
+				
 	# Sheets rendered update
 	#var time = metro.get_playback_position() + AudioServer.get_time_since_last_mix()
 	#time -= AudioServer.get_output_latency()
 	sheet_renderer.move_notes(delta)
-	if sheet_renderer.can_create_new_sequence() and reps_to_do > 1:
+	if run_metro and sheet_renderer.can_create_new_sequence() and reps_to_do > 1:
 		sheet_renderer.create_sequece(tones)
 	
 	if run_metro:
@@ -153,16 +168,18 @@ func tone_progress(delta: float):
 				on_scale_finished.emit()
 				
 				# All finished - win
-				# TODO: Saving of success
 				if reps_to_do <= 0:
 					game_manager.save_active_level_completed()
-					game_manager.activate_menu(true)
+					win_audio_player.play()
+					run_metro = false
+					win = true
 
 		else:
 			# Restart if failed
 			current_pos = 0
 			last_note_hit = -1
 			has_failed = true
+			tone_audio_player.play()
 			
 			sheet_renderer.tested_note_feedback(false)
 			tone_recognition.clear_current_note()
@@ -209,7 +226,8 @@ func _on_bpm_slider_value_changed(value: float) -> void:
 
 
 func _on_scale_key_list_item_selected(index: int) -> void:
-	tones = scaleManager.generate_scale(itemlist_scale_key.get_item_text(index) , ScalesManager.EScaleTypes.Major)
+	var t: int = itemlist_scale_type.get_selected_items()[0]
+	tones = scaleManager.generate_scale(itemlist_scale_key.get_item_text(index) , t)
 	add_reversed()
 
 func _on_scale_type_list_item_selected(index: int) -> void:

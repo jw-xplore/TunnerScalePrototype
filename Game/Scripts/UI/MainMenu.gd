@@ -6,6 +6,10 @@ class_name MainMenu
 @export var game_manager: GameManager
 @export var level_buttons_holder: Control
 
+@export_group("Audio")
+@export var audio_player: AudioStreamPlayer
+@export var tones_sounds: Array[AudioStream]
+
 var current_key: int = 0
 var current_type: int = 0
 var level_buttons = []
@@ -27,6 +31,8 @@ func _on_btn_key_left_button_down() -> void:
 	lbl_key.text = MusicConstants.TONE_NAMES[current_key]
 	
 	update_finished_levels()
+	# Audio
+	play_current_tone()
 
 func _on_btn_key_right_button_down() -> void:
 	if current_key >= MusicConstants.TONES_COUNT - 1:
@@ -37,6 +43,8 @@ func _on_btn_key_right_button_down() -> void:
 	lbl_key.text = MusicConstants.TONE_NAMES[current_key]
 	
 	update_finished_levels()
+	# Audio
+	play_current_tone()
 
 # Type selection
 func _on_btn_type_left_button_down() -> void:
@@ -73,6 +81,8 @@ func start_game(difficulty: int):
 	game_manager.activate_menu(false)
 	var dif = Difficulties.LEVELS[difficulty]
 	game_manager.setup_game(dif[0], dif[1], current_key, current_type, difficulty)
+	# Audio
+	play_current_tone()
 
 func update_finished_levels():
 	var key = MusicConstants.TONE_NAMES[current_key]
@@ -83,3 +93,10 @@ func update_finished_levels():
 	for i in range(0, level_buttons.size()):
 		completed = game_manager.save_manager.is_completed(key, type, i)
 		level_buttons[i].display_highligh(completed)
+
+func play_current_tone():
+	audio_player.stream = tones_sounds[current_key]
+	audio_player.play()
+
+func get_current_tone() -> AudioStream:
+	return tones_sounds[current_key]

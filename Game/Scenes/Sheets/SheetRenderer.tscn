@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://oce7o2nmo5cb"]
+[gd_scene load_steps=6 format=3 uid="uid://oce7o2nmo5cb"]
 
 [ext_resource type="Script" uid="uid://ccwedj51jic2h" path="res://Game/Scripts/SheetRenderer.gd" id="1_fdj81"]
 [ext_resource type="PackedScene" uid="uid://cotu3ekf31yn7" path="res://Game/Scenes/Sheets/SheetLine.tscn" id="2_k4bhy"]
 [ext_resource type="PackedScene" uid="uid://bo2ejifgwjkwr" path="res://Game/Scenes/Sheets/SheetNoteQuarter.tscn" id="3_cyy31"]
 [ext_resource type="Texture2D" uid="uid://copmykbv5shmb" path="res://Game/Sprites/Sheets/CheckArea.png" id="4_v0icx"]
+[ext_resource type="Texture2D" uid="uid://cbv8sw5dfobtl" path="res://Game/Sprites/UI/Clef.png" id="5_kxhaf"]
 
 [node name="SheetRenderer" type="Control" node_paths=PackedStringArray("lines_holder", "notes_holder", "check_area")]
 layout_mode = 3
@@ -31,6 +32,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Notes" type="Control" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,3 +57,21 @@ offset_top = 1.5
 offset_right = 41.5
 offset_bottom = 141.5
 texture = ExtResource("4_v0icx")
+
+[node name="Clef" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = -24.0
+offset_right = 122.0
+offset_bottom = 300.0
+scale = Vector2(0.500552, 0.500552)
+texture = ExtResource("5_kxhaf")
+
+[node name="Shadow" type="TextureRect" parent="Clef"]
+modulate = Color(0, 0, 0, 0.196078)
+z_index = -1
+layout_mode = 0
+offset_top = 2.0
+offset_right = 108.0
+offset_bottom = 326.0
+texture = ExtResource("5_kxhaf")
