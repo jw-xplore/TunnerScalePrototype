@@ -7,6 +7,7 @@ var levels_count = 0
 var completed_count = 0
 
 var levels_completed = {}
+var open_first_time: bool = false
 
 func _ready() -> void:
 	print(OS.get_user_data_dir())
@@ -27,6 +28,7 @@ func _ready() -> void:
 				completed_count += 1
 	else:
 		generate_new_save_file()
+		open_first_time = true
 	#print("levels_count: " + str(levels_count))
 	#completed_count = 40
 

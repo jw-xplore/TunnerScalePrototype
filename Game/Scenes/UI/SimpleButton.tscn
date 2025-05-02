@@ -43,6 +43,7 @@ grow_vertical = 2
 texture = ExtResource("1_p4bdb")
 
 [node name="Icon" type="TextureRect" parent="Background"]
+modulate = Color(0.899258, 0.899258, 0.899258, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
