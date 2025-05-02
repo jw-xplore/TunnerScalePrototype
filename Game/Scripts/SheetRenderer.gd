@@ -25,11 +25,12 @@ class_name SheetRenderer
 var note_names = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 var lowest_position_treble_c4 = 10
 const OCTAVE_DISTANCE = 7
-var half_step = line_space * 0.5
+var half_step: float = 0
 
 var tested_note: Control
 
 func _ready() -> void:
+	half_step = line_space * 0.5
 	# Create line base
 	for i in range(0, 5):
 		var line: Control = line_scene.instantiate()
@@ -87,6 +88,10 @@ func create_note(note: String, octave: int):
 		note_obj.get_node("Sharp").visible = true
 	else:
 		note_obj.get_node("Sharp").visible = false
+		
+	# C Line
+	if note == "C" and octave == 4:
+		note_obj.get_node("CLine").visible = true
 		
 func clear_sheet():
 	for note in notes_holder.get_children():

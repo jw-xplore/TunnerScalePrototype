@@ -120,7 +120,7 @@ func run_metronome(delta: float):
 		if beats_passed >= wait_for_beat:
 			tone_progress(delta)
 	else:
-		sheet_renderer.fix_notes_movement(beats_passed - wait_for_beat + beat_offset)
+		sheet_renderer.fix_notes_movement(beats_passed - wait_for_beat)
 		metro.stop()
 		metro.play()
 		bpm_time_count = 0

@@ -40,6 +40,7 @@ z_index = 10
 
 [node name="TutorialScreen" parent="." node_paths=PackedStringArray("tone_recognition", "save_manager") instance=ExtResource("8_kektv")]
 z_index = 5
+show_everytime = true
 tone_recognition = NodePath("../ToneRecognition")
 save_manager = NodePath("../SaveManager")
 read_delay = 7.0

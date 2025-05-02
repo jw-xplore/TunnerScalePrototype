@@ -12,11 +12,12 @@
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "lbl_recognized_tone", "itemlist_scale_key", "itemlist_scale_type", "win_audio_player", "tone_audio_player")]
 script = ExtResource("1_1yube")
+_debug_note_success = true
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
 scaleManager = NodePath("ScalesManager")
 sheet_renderer = NodePath("NoteUI/SheetRenderer")
-beat_offset = 1
+beat_offset = 2
 lbl_current_tone = NodePath("NoteUI/LblToneToHit")
 lbl_score = NodePath("NoteUI/ProgressionUI/LblToneScore")
 lbl_repetitions = NodePath("NoteUI/LblRepetitions")
@@ -321,7 +322,6 @@ anchor_bottom = 0.5
 offset_left = -400.0
 offset_right = -400.0
 offset_bottom = 0.0
-scale = Vector2(1.5, 1.5)
 tone_game = NodePath("../..")
 fade_size = 700.0
 new_sequence_position = 1600.0
