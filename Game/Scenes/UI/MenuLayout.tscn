@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://45fhrklnafnt"]
+[gd_scene load_steps=24 format=3 uid="uid://45fhrklnafnt"]
 
 [ext_resource type="Script" uid="uid://bbg3av4d1a0l2" path="res://Game/Scripts/UI/MainMenu.gd" id="1_humqo"]
 [ext_resource type="Texture2D" uid="uid://c6qalq6hcnn3l" path="res://Game/Sprites/UI/Logo/Logo2_size2.png" id="2_aoqxq"]
@@ -22,6 +22,7 @@
 [ext_resource type="AudioStream" uid="uid://cy3qo1vqevtsx" path="res://Game/Audio/Tones/ToneAs.wav" id="12_3bwky"]
 [ext_resource type="AudioStream" uid="uid://ct561ilewjapt" path="res://Game/Audio/Tones/ToneB.wav" id="13_yq8wj"]
 [ext_resource type="AudioStream" uid="uid://cgwpt731tquyo" path="res://Game/Audio/Melodies/WinMelody_placeholder.wav" id="22_26k17"]
+[ext_resource type="PackedScene" uid="uid://b7o43esvmuxd6" path="res://Game/Scenes/UI/FeedbackButton.tscn" id="23_vxag4"]
 
 [node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type", "level_buttons_holder", "audio_player")]
 layout_mode = 3
@@ -37,6 +38,9 @@ level_buttons_holder = NodePath("MarginContainer/VBoxContainer/DifficultySelecti
 audio_player = NodePath("AudioStreamPlayer")
 tones_sounds = Array[AudioStream]([ExtResource("2_lox42"), ExtResource("3_26k17"), ExtResource("4_vxag4"), ExtResource("5_divdf"), ExtResource("6_hydpq"), ExtResource("7_kr1u6"), ExtResource("8_r5m8m"), ExtResource("9_i8cmy"), ExtResource("10_rwlik"), ExtResource("11_ik5ew"), ExtResource("12_3bwky"), ExtResource("13_yq8wj")])
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("22_26k17")
+
 [node name="Logo" type="TextureRect" parent="."]
 layout_mode = 1
 offset_left = 100.0
@@ -47,16 +51,16 @@ texture = ExtResource("2_aoqxq")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -680.0
-offset_top = -160.0
-offset_right = -220.0
-offset_bottom = 292.0
-grow_horizontal = 0
+offset_left = -230.0
+offset_top = -136.0
+offset_right = 230.0
+offset_bottom = 316.0
+grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
@@ -147,8 +151,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 icon_texture = ExtResource("8_2juxp")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("22_26k17")
+[node name="SimpleButton" parent="." instance=ExtResource("23_vxag4")]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -267.0
+offset_top = 48.0
+offset_right = -58.0
+offset_bottom = 128.0
+grow_horizontal = 0
 
 [connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Left" to="." method="_on_btn_key_left_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Right" to="." method="_on_btn_key_right_button_down"]
@@ -157,3 +169,4 @@ stream = ExtResource("22_26k17")
 [connection signal="button_down" from="MarginContainer/VBoxContainer/DifficultySelection/Btn_Easy" to="." method="_on_btn_easy_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/DifficultySelection/Btn_Medium" to="." method="_on_btn_medium_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/DifficultySelection/Btn_Hard" to="." method="_on_btn_hard_button_down"]
+[connection signal="button_down" from="SimpleButton" to="." method="_on_feedback_button_button_down"]

@@ -100,3 +100,7 @@ func play_current_tone():
 
 func get_current_tone() -> AudioStream:
 	return tones_sounds[current_key]
+
+# Link to feedback form
+func _on_feedback_button_button_down() -> void:
+	pass # Replace with function body.

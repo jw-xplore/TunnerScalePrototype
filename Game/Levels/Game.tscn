@@ -36,3 +36,4 @@ game_manager = NodePath("..")
 
 [node name="OpeningScene" parent="." instance=ExtResource("3_d71ai")]
 z_index = 10
+show = false

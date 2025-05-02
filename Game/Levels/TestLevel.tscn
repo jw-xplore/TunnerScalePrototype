@@ -12,6 +12,7 @@
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "lbl_recognized_tone", "itemlist_scale_key", "itemlist_scale_type", "win_audio_player", "tone_audio_player")]
 script = ExtResource("1_1yube")
+_debug_note_success = true
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
 scaleManager = NodePath("ScalesManager")
@@ -330,9 +331,10 @@ new_sequence_position = 1600.0
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -96.0
-offset_top = 32.0
-offset_right = -32.0
+offset_left = -128.0
+offset_top = 64.0
+offset_right = -64.0
+offset_bottom = 112.0
 grow_horizontal = 0
 icon_texture = ExtResource("6_n8a3h")
 
