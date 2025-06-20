@@ -34,3 +34,4 @@ project/assembly_name="MobileTunnerTest"
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.0338533, 0.0338533, 0.0338533, 1)

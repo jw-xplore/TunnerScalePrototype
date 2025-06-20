@@ -51,6 +51,8 @@ var run_metro = true
 var bpm_time = 0.0
 var bpm_time_count = 0.0
 
+var mistake: bool = false
+
 signal on_scale_progress
 signal on_scale_finished
 signal on_scale_fail
@@ -95,10 +97,19 @@ func _process(delta: float) -> void:
 	if running == false:
 		return
 				
+	# Fix mistake
+	if mistake:
+		var cur_note = tone_recognition.current_note + str(tone_recognition.current_octave)
+		if (last_note_hit + 1) == current_pos and cur_note == tones[current_pos]:
+			mistake = false
+			run_metro = true
+			
+				
 	# Sheets rendered update
 	#var time = metro.get_playback_position() + AudioServer.get_time_since_last_mix()
 	#time -= AudioServer.get_output_latency()
-	sheet_renderer.move_notes(delta)
+	if run_metro:
+		sheet_renderer.move_notes(delta)
 	if run_metro and sheet_renderer.can_create_new_sequence() and reps_to_do > 1:
 		sheet_renderer.create_sequece(tones)
 	
@@ -176,10 +187,13 @@ func tone_progress(delta: float):
 
 		else:
 			# Restart if failed
-			current_pos = 0
-			last_note_hit = -1
-			has_failed = true
-			tone_audio_player.play()
+			#current_pos = 0
+			#last_note_hit = -1
+			#has_failed = true
+			#tone_audio_player.play()
+			#running = false
+			run_metro = false
+			mistake = true
 			
 			sheet_renderer.tested_note_feedback(false)
 			tone_recognition.clear_current_note()

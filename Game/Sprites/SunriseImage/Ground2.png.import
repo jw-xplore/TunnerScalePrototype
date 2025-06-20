@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvf3crow4ew0o"
-path="res://.godot/imported/FullNote.png-7c6ef6653222884778cdd9101c8e8613.ctex"
+uid="uid://bm2sla3briv0v"
+path="res://.godot/imported/Ground2.png-5f971437174ff644848a46d92d017226.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game/Sprites/Sheets/FullNote.png"
-dest_files=["res://.godot/imported/FullNote.png-7c6ef6653222884778cdd9101c8e8613.ctex"]
+source_file="res://Game/Sprites/SunriseImage/Ground2.png"
+dest_files=["res://.godot/imported/Ground2.png-5f971437174ff644848a46d92d017226.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bo2ejifgwjkwr"]
 
 [ext_resource type="Texture2D" uid="uid://cc88s6krxefgq" path="res://Game/Sprites/Sheets/LineEdge.png" id="1_1it1h"]
-[ext_resource type="Texture2D" uid="uid://bcbpu8bobqo25" path="res://Game/Sprites/Sheets/FullNote.png" id="1_f44g6"]
+[ext_resource type="Texture2D" uid="uid://dvf3crow4ew0o" path="res://Game/Sprites/Sheets/FullNote.png" id="1_f44g6"]
 [ext_resource type="Texture2D" uid="uid://wm8yme8x1xb6" path="res://Game/Sprites/Sheets/LineBase.png" id="2_1it1h"]
 
 [node name="Note" type="Control"]
@@ -13,13 +13,14 @@ offset_bottom = 40.0
 [node name="CLine" type="Control" parent="."]
 visible = false
 anchors_preset = 0
-offset_left = -43.0
+offset_left = -47.0
 offset_top = -2.0
-offset_right = -3.0
+offset_right = -7.0
 offset_bottom = 38.0
 scale = Vector2(0.5, 0.5)
 
 [node name="Left" type="TextureRect" parent="CLine"]
+layout_mode = 0
 offset_left = 40.0
 offset_right = 50.0
 offset_bottom = 10.0
@@ -27,14 +28,16 @@ scale = Vector2(-1, 1)
 texture = ExtResource("1_1it1h")
 
 [node name="Base" type="TextureRect" parent="CLine"]
+layout_mode = 0
 offset_left = 40.0
-offset_right = 140.0
+offset_right = 160.0
 offset_bottom = 10.0
 texture = ExtResource("2_1it1h")
 
 [node name="Right" type="TextureRect" parent="CLine"]
-offset_left = 140.0
-offset_right = 150.0
+layout_mode = 0
+offset_left = 160.0
+offset_right = 170.0
 offset_bottom = 10.0
 texture = ExtResource("1_1it1h")
 
@@ -45,10 +48,10 @@ offset_bottom = 40.0
 
 [node name="Left" type="TextureRect" parent="NoteParts"]
 layout_mode = 0
-offset_left = -20.0
-offset_top = -160.0
-offset_right = 20.0
-offset_bottom = 14.0
+offset_left = -23.0
+offset_top = -158.0
+offset_right = 27.0
+offset_bottom = 16.0
 texture = ExtResource("1_f44g6")
 expand_mode = 1
 
@@ -58,7 +61,7 @@ z_index = -1
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
-offset_right = 42.0
+offset_right = 52.0
 offset_bottom = 176.0
 texture = ExtResource("1_f44g6")
 expand_mode = 1

@@ -15,9 +15,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lgrhs")
-continue_wrap = NodePath("Continue")
-lbl_recognized_tone = NodePath("Continue/RecognizedTone")
-piano_hint = NodePath("Continue/PianoHint")
+continue_wrap = NodePath("VBoxContainer/Continue")
+lbl_recognized_tone = NodePath("VBoxContainer/Continue/RecognizedTone")
+piano_hint = NodePath("VBoxContainer/Continue/PianoHint")
 
 [node name="Background" type="TextureRect" parent="."]
 modulate = Color(0.145098, 0.133333, 0.466667, 1)
@@ -43,7 +43,7 @@ pivot_offset = Vector2(294, 128)
 texture = ExtResource("3_lgrhs")
 stretch_mode = 3
 
-[node name="WelcomeText" type="Label" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -51,11 +51,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -450.0
-offset_top = -138.0
+offset_top = -149.0
 offset_right = 450.0
-offset_bottom = 160.0
+offset_bottom = 149.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="WelcomeText" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_constants/line_spacing = 2
 theme_override_fonts/font = ExtResource("3_oftk0")
@@ -68,24 +72,19 @@ Just select a scale you want to practice and click one of difficulties button."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Continue" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Continue" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
 
-[node name="PlayToContinue" type="Label" parent="Continue"]
+[node name="PlayToContinue" type="Label" parent="VBoxContainer/Continue"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 270.0
-offset_top = 442.0
-offset_right = 1170.0
-offset_bottom = 481.0
+offset_left = -450.0
+offset_right = 450.0
+offset_bottom = 39.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_constants/line_spacing = 2
 theme_override_fonts/font = ExtResource("3_oftk0")
@@ -94,20 +93,20 @@ text = "Play C4 to continue."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="RecognizedTone" type="Label" parent="Continue"]
+[node name="RecognizedTone" type="Label" parent="VBoxContainer/Continue"]
 modulate = Color(0.560784, 0.811765, 0.898039, 1)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 620.0
-offset_top = 481.0
-offset_right = 820.0
-offset_bottom = 595.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -61.0
+offset_right = 100.0
+offset_bottom = 53.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_constants/line_spacing = 2
 theme_override_fonts/font = ExtResource("3_oftk0")
@@ -116,24 +115,25 @@ text = "A4 (440 Hz)"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="PianoHint" type="TextureRect" parent="Continue"]
+[node name="PianoHint" type="TextureRect" parent="VBoxContainer/Continue"]
 z_index = 1
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 423.0
-offset_top = 513.0
-offset_right = 2440.0
-offset_bottom = 751.0
+anchor_bottom = 1.0
+offset_left = -1008.5
+offset_top = -29.0
+offset_right = 1008.5
+offset_bottom = 209.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 scale = Vector2(0.3, 0.3)
+pivot_offset = Vector2(1008.5, 0)
 texture = ExtResource("4_rx4as")
 
-[node name="KeyHighlight" type="TextureRect" parent="Continue/PianoHint"]
+[node name="KeyHighlight" type="TextureRect" parent="VBoxContainer/Continue/PianoHint"]
 modulate = Color(0.559003, 0.811571, 0.898828, 1)
 z_index = -1
 layout_mode = 0
@@ -142,7 +142,7 @@ offset_right = 842.5
 offset_bottom = 238.0
 texture = ExtResource("5_lgrhs")
 
-[node name="Shadow" type="TextureRect" parent="Continue/PianoHint"]
+[node name="Shadow" type="TextureRect" parent="VBoxContainer/Continue/PianoHint"]
 modulate = Color(0, 0, 0, 0.196078)
 z_index = -1
 layout_mode = 1

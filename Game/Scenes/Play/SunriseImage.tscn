@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cxvpb8oxejcgp" path="res://Game/Sprites/SunriseImage/Sun.png" id="4_f3jl3"]
 [ext_resource type="Texture2D" uid="uid://docmycqbf02r5" path="res://Game/Sprites/SunriseImage/Sky_bottom.png" id="4_u0cvc"]
 [ext_resource type="Texture2D" uid="uid://dlvrdlmpb0kg0" path="res://Game/Sprites/SunriseImage/Mountain.png" id="5_f3jl3"]
-[ext_resource type="Texture2D" uid="uid://bm2sla3briv0v" path="res://Game/Sprites/SunriseImage/Ground.png" id="5_s16ga"]
+[ext_resource type="Texture2D" uid="uid://dq5qms7sak6s3" path="res://Game/Sprites/SunriseImage/Ground.png" id="5_s16ga"]
 
 [node name="SunriseImage" type="Node2D" node_paths=PackedStringArray("sun")]
 script = ExtResource("1_mmrfd")
@@ -71,7 +71,7 @@ colors = Array[Color]([Color(0.136462, 0.103809, 0.269847, 1), Color(0.329822, 0
 
 [node name="Ground" type="Sprite2D" parent="."]
 modulate = Color(0.00554011, 0.0949614, 0.188958, 1)
-position = Vector2(723.273, 653.022)
+position = Vector2(723, 810)
 scale = Vector2(2.02793, 2.02793)
 texture = ExtResource("5_s16ga")
 script = ExtResource("3_hsjid")

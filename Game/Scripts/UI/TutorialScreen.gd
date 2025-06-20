@@ -35,12 +35,13 @@ func _process(delta: float) -> void:
 			continue_wrap.modulate.a = lerp(continue_wrap.modulate.a, continue_wrap.modulate.a + fade_out_speed, delta)
 		
 		# Handle tone recognition
-		lbl_recognized_tone.text = tone_recognition.current_note + str(tone_recognition.current_octave)
-		if tone_recognition.current_octave == 0:
+		lbl_recognized_tone.text = "Played: " + tone_recognition.current_note + str(tone_recognition.current_octave)
+		if  tone_recognition.current_note == "" or tone_recognition.current_octave == 0:
 			lbl_recognized_tone.text = "Play"
 		
 		if detect_tone_delay > 0:
 			detect_tone_delay -= delta
+			tone_recognition.clear_current_note()
 		else:
 			if tone_recognition.current_note == "C" and tone_recognition.current_octave == 4:
 				tone_test_passed = true
