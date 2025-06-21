@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://da2mi25h7x2cu"]
+[gd_scene load_steps=12 format=3 uid="uid://da2mi25h7x2cu"]
 
 [ext_resource type="Script" uid="uid://t2wocd1wtyks" path="res://Game/Levels/ToneGame.gd" id="1_1yube"]
 [ext_resource type="AudioStream" uid="uid://dww8xs5yd537n" path="res://Game/Audio/Clicks/switch1.ogg" id="2_l3ppg"]
@@ -6,28 +6,31 @@
 [ext_resource type="FontFile" uid="uid://cfgjxqr22llhe" path="res://Game/Font/EBGaramond-Medium.ttf" id="4_abuft"]
 [ext_resource type="FontFile" uid="uid://dvodb7k6kojyk" path="res://Game/Font/FaunaOne-Regular.ttf" id="5_abuft"]
 [ext_resource type="PackedScene" uid="uid://dhksvttb8b00" path="res://Game/Scenes/UI/SimpleButton.tscn" id="5_c8ytr"]
+[ext_resource type="PackedScene" uid="uid://6o3ms55chtkv" path="res://Game/Scenes/UI/RatingDialog.tscn" id="6_f5f3r"]
 [ext_resource type="Texture2D" uid="uid://kyk8n7c058xu" path="res://Game/Sprites/UI/Icon_Cancel.png" id="6_n8a3h"]
 [ext_resource type="PackedScene" uid="uid://ccpigel55v1pm" path="res://Game/Scenes/UI/PianoHint.tscn" id="8_ugqfd"]
 [ext_resource type="PackedScene" uid="uid://oce7o2nmo5cb" path="res://Game/Scenes/Sheets/SheetRenderer.tscn" id="9_abuft"]
 [ext_resource type="AudioStream" uid="uid://cgwpt731tquyo" path="res://Game/Audio/Melodies/WinMelody_placeholder.wav" id="9_ugqfd"]
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "scaleManager", "sheet_renderer", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "lbl_recognized_tone", "itemlist_scale_key", "itemlist_scale_type", "piano_hint", "win_audio_player", "tone_audio_player")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "scaleManager", "sheet_renderer", "gameplay_ui", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "lbl_recognized_tone", "itemlist_scale_key", "itemlist_scale_type", "piano_hint", "rating_dialog", "win_audio_player", "tone_audio_player")]
 script = ExtResource("1_1yube")
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
 scaleManager = NodePath("ScalesManager")
-sheet_renderer = NodePath("NoteUI/SheetRenderer")
+sheet_renderer = NodePath("NoteUI/GameplayUI/SheetRenderer")
 beat_offset = 2
-lbl_current_tone = NodePath("NoteUI/LblToneToHit")
+gameplay_ui = NodePath("NoteUI/GameplayUI")
+lbl_current_tone = NodePath("NoteUI/GameplayUI/LblToneToHit")
 lbl_score = NodePath("NoteUI/ProgressionUI/LblToneScore")
-lbl_repetitions = NodePath("NoteUI/LblRepetitions")
+lbl_repetitions = NodePath("NoteUI/GameplayUI/LblRepetitions")
 slider_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMSlider")
 lbl_bpm = NodePath("NoteUI/SettingsUI/BPMSettings/BPMValue")
-lbl_recognized_tone = NodePath("NoteUI/LblRecognizedTone")
+lbl_recognized_tone = NodePath("NoteUI/GameplayUI/LblRecognizedTone")
 itemlist_scale_key = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList")
 itemlist_scale_type = NodePath("NoteUI/SettingsUI/ProgressionSettings/ScaleTypeList")
 regognized_tone_ui_delay = 0.075
 piano_hint = NodePath("NoteUI/PianoHint")
+rating_dialog = NodePath("NoteUI/RatingDialog")
 win_audio_player = NodePath("WinPlayer")
 win_audio_time = 5.0
 tone_audio_player = NodePath("TonePlayer")
@@ -270,30 +273,38 @@ theme_override_font_sizes/font_size = 24
 text = "Score: "
 horizontal_alignment = 1
 
-[node name="LblToneToHit" type="Label" parent="NoteUI"]
+[node name="GameplayUI" type="Control" parent="NoteUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LblToneToHit" type="Label" parent="NoteUI/GameplayUI"]
+layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 361.0
-offset_top = -159.0
+offset_top = 181.0
 offset_right = 468.0
-offset_bottom = -111.0
+offset_bottom = 229.0
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
 theme_override_fonts/font = ExtResource("5_abuft")
 theme_override_font_sizes/font_size = 36
 text = "Tone: "
 
-[node name="LblRecognizedTone" type="Label" parent="NoteUI"]
+[node name="LblRecognizedTone" type="Label" parent="NoteUI/GameplayUI"]
+layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -550.0
-offset_top = -159.0
-offset_right = -347.0
-offset_bottom = -111.0
+offset_left = 890.0
+offset_top = 181.0
+offset_right = 1093.0
+offset_bottom = 229.0
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.196078)
@@ -303,7 +314,8 @@ text = "A5 (440Hz) "
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="LblRepetitions" type="Label" parent="NoteUI"]
+[node name="LblRepetitions" type="Label" parent="NoteUI/GameplayUI"]
+layout_mode = 0
 offset_left = 361.0
 offset_top = 152.0
 offset_right = 561.0
@@ -314,19 +326,22 @@ theme_override_font_sizes/font_size = 28
 text = "Repetitions: "
 vertical_alignment = 1
 
-[node name="SheetRenderer" parent="NoteUI" node_paths=PackedStringArray("tone_game") instance=ExtResource("9_abuft")]
+[node name="SheetRenderer" parent="NoteUI/GameplayUI" node_paths=PackedStringArray("tone_game") instance=ExtResource("9_abuft")]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -54.0
-offset_right = -400.0
-offset_bottom = -54.0
-tone_game = NodePath("../..")
+offset_left = 320.0
+offset_top = 286.0
+offset_right = 320.0
+offset_bottom = 286.0
+tone_game = NodePath("../../..")
 fade_size = 700.0
 new_sequence_position = 1600.0
+
+[node name="RatingDialog" parent="NoteUI" instance=ExtResource("6_f5f3r")]
 
 [node name="BtnCancel" parent="NoteUI" instance=ExtResource("5_c8ytr")]
 anchors_preset = 1

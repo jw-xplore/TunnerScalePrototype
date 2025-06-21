@@ -19,6 +19,7 @@ var sunriseImage: SunriseImage
 
 # UI
 @export_group("UI refs")
+@export var gameplay_ui: Control
 @export var lbl_current_tone: Label
 @export var lbl_score: Label
 @export var lbl_repetitions: Label
@@ -29,6 +30,7 @@ var sunriseImage: SunriseImage
 @export var itemlist_scale_type: ItemList
 @export var regognized_tone_ui_delay: float = 0.1
 @export var piano_hint: PianoHint
+@export var rating_dialog: RatingDialog
 var regognized_tone_ui_timer: float = 0
 
 @export_group("Audio")
@@ -52,13 +54,13 @@ var bpm_time = 0.0
 var bpm_time_count = 0.0
 
 var mistake: bool = false
+var mistake_count: int = 0
 
 signal on_scale_progress
 signal on_scale_finished
 signal on_scale_fail
 
 # Overrides
-
 func _ready() -> void:
 	finished_times = 0
 	furtest_progression = 0
@@ -102,6 +104,7 @@ func _process(delta: float) -> void:
 		var cur_note:String = tone_recognition.current_note + str(tone_recognition.current_octave)
 		if (last_note_hit + 1) == current_pos and cur_note == tones[current_pos]:
 			mistake = false
+			mistake_count += 1
 			run_metro = true
 			piano_hint.hide_hint()
 			
@@ -175,10 +178,15 @@ func tone_progress(delta: float):
 				
 				# All finished - win
 				if reps_to_do <= 0:
-					game_manager.save_active_level_completed()
+					#game_manager.save_active_level_completed()
 					win_audio_player.play()
 					run_metro = false
 					win = true
+					
+					# Show rating
+					gameplay_ui.visible = false
+					if rating_dialog.rate(mistake_count) == 1:
+						game_manager.save_active_level_completed()
 
 		else:
 			# Mistake
@@ -243,3 +251,4 @@ func add_reversed():
 
 func _on_simple_button_button_down() -> void:
 	game_manager.activate_menu(true)
+		
