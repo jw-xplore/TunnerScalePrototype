@@ -46,7 +46,6 @@ var furtest_progression: int = 0
 var target_progression: int = 0
 var reps_to_do: int = 0
 
-var has_failed = false
 var run_metro = true
 var bpm_time = 0.0
 var bpm_time_count = 0.0
@@ -99,15 +98,13 @@ func _process(delta: float) -> void:
 				
 	# Fix mistake
 	if mistake:
-		var cur_note = tone_recognition.current_note + str(tone_recognition.current_octave)
+		var cur_note:String = tone_recognition.current_note + str(tone_recognition.current_octave)
 		if (last_note_hit + 1) == current_pos and cur_note == tones[current_pos]:
 			mistake = false
 			run_metro = true
 			
 				
 	# Sheets rendered update
-	#var time = metro.get_playback_position() + AudioServer.get_time_since_last_mix()
-	#time -= AudioServer.get_output_latency()
 	if run_metro:
 		sheet_renderer.move_notes(delta)
 	if run_metro and sheet_renderer.can_create_new_sequence() and reps_to_do > 1:
@@ -136,15 +133,11 @@ func run_metronome(delta: float):
 		metro.play()
 		bpm_time_count = 0
 		beats_passed += 1
-		
-		# Restart - here to sync with beat
-		if has_failed:
-			restart_progression()
 
 func tone_progress(delta: float):
 	if bpm_time_count < bpm_time:
 		# Check note was hit within current beat
-		var cur_note = tone_recognition.current_note + str(tone_recognition.current_octave)
+		var cur_note: String = tone_recognition.current_note + str(tone_recognition.current_octave)
 		
 		var pas: bool = (_debug_note_success == true) or cur_note == tones[current_pos]
 		
@@ -186,26 +179,20 @@ func tone_progress(delta: float):
 					win = true
 
 		else:
-			# Restart if failed
-			#current_pos = 0
-			#last_note_hit = -1
-			#has_failed = true
-			#tone_audio_player.play()
-			#running = false
+			# Mistake
 			run_metro = false
 			mistake = true
+			
+			#current_pos -= 1
+			#last_note_hit -= 1
+			
+			beats_passed -= 1
+			sheet_renderer.set_notes_position(beats_passed -wait_for_beat - 1)
 			
 			sheet_renderer.tested_note_feedback(false)
 			tone_recognition.clear_current_note()
 			on_scale_fail.emit()
 			
-
-func restart_progression():
-	sheet_renderer.clear_sheet()
-	sheet_renderer.create_sequece(tones)
-	sheet_renderer.set_notes_position(-wait_for_beat - beat_offset)
-	has_failed = false
-	beats_passed = 0
 	
 func progression_ui(delta: float):
 	lbl_current_tone.text = "Tone: " + tones[current_pos]
@@ -219,18 +206,6 @@ func progression_ui(delta: float):
 		lbl_recognized_tone.text = "(" +  str(tone_recognition.current_fq) + " Hz) " + tone_recognition.current_note + str(tone_recognition.current_octave)
 		regognized_tone_ui_timer = regognized_tone_ui_delay
 	
-	# Show success color
-	"""
-	if current_pos == last_note_hit:
-		lbl_current_tone.modulate = Color.LIME_GREEN
-	else:
-		lbl_current_tone.modulate = Color.WHITE
-	"""
-	
-# Character callback
-func on_character_reach_target():
-	run_metro = true
-	tone_recognition.clear_current_note()
 
 # UI callbacks
 func _on_bpm_slider_value_changed(value: float) -> void:

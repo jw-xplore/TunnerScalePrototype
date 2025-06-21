@@ -116,14 +116,14 @@ func fix_notes_movement(beat: int):
 func note_node_id(note: Node) -> int:
 	var i: int = 0
 	for n in notes_holder.get_children():
-		i += 1
 		if n == note:
 			return i
+		i += 1
 			
 	return -1
 	
 func set_notes_position(beats: int):
-	var pos = note_distance * (beats - sign(beats) * 1)
+	var pos = note_distance * (beats + 1)
 	notes_holder.position = Vector2(-pos, 0)
 	
 func set_check_area_beat_offset(beats: int):
@@ -142,14 +142,12 @@ func tested_note_feedback(success: bool):
 	# update tested note
 	if tested_note == null:
 		tested_note = notes_holder.get_child(0)
-	else:
-		if notes_holder.global_position.x - tested_note.global_position.x < note_distance:
-			tested_note = notes_holder.get_child(note_node_id(tested_note))
 			
 	# Color note
 	if tested_note != null:
 		if success:
 			tested_note.modulate = Color.AQUAMARINE
+			tested_note = notes_holder.get_child(note_node_id(tested_note) + 1)
 			#print("Hit with offset: " + str(check_area.global_position.x - tested_note.global_position.x))
 		else:
 			tested_note.modulate = Color.FIREBRICK
