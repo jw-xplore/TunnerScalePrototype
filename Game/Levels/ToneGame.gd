@@ -28,6 +28,7 @@ var sunriseImage: SunriseImage
 @export var itemlist_scale_key: ItemList
 @export var itemlist_scale_type: ItemList
 @export var regognized_tone_ui_delay: float = 0.1
+@export var piano_hint: PianoHint
 var regognized_tone_ui_timer: float = 0
 
 @export_group("Audio")
@@ -102,6 +103,7 @@ func _process(delta: float) -> void:
 		if (last_note_hit + 1) == current_pos and cur_note == tones[current_pos]:
 			mistake = false
 			run_metro = true
+			piano_hint.hide_hint()
 			
 				
 	# Sheets rendered update
@@ -183,6 +185,7 @@ func tone_progress(delta: float):
 			run_metro = false
 			mistake = true
 			
+			piano_hint.show_hint(scaleManager.last_notes_i[current_pos])
 			#current_pos -= 1
 			#last_note_hit -= 1
 			

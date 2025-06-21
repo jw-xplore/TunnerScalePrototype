@@ -2,6 +2,7 @@ extends Node
 class_name  MusicConstants
 
 const TONES_COUNT = 12
+const BASE_OCTAVE = 4
 
 # Enum
 enum ENotes { C, Cs, D, Ds, E, F, Fs, G, Gs, A, As, B }

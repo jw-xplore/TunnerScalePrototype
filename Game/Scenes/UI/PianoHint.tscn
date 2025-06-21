@@ -1,0 +1,323 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccpigel55v1pm"]
+
+[ext_resource type="Texture2D" uid="uid://d4d5r0lqlr4yx" path="res://Game/Sprites/UI/Piano/FullPianoFaded.png" id="1_25p8u"]
+[ext_resource type="Script" uid="uid://y7qpeb05qoie" path="res://Game/Scripts/UI/PianoHint.gd" id="2_8y2xl"]
+[ext_resource type="Texture2D" uid="uid://bssuyigq1nlfw" path="res://Game/Sprites/UI/Piano/KeyHighlighted.png" id="2_o67ql"]
+[ext_resource type="Texture2D" uid="uid://bhllx4svgy57a" path="res://Game/Sprites/UI/Piano/BlackKeyHighlight.png" id="3_8y2xl"]
+
+[node name="PianoHint" type="TextureRect"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1008.0
+offset_top = -300.0
+offset_right = 1009.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.3, 0.3)
+pivot_offset = Vector2(1009, 238)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_25p8u")
+script = ExtResource("2_8y2xl")
+
+[node name="Highlight" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 785.667
+offset_top = 1.33341
+offset_right = 845.667
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 829.0
+offset_top = 5.0
+offset_right = 854.0
+offset_bottom = 142.0
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight2" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 842.333
+offset_top = 1.33341
+offset_right = 902.333
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight2" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 886.0
+offset_top = 5.0
+offset_right = 911.0
+offset_bottom = 142.0
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight3" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 899.0
+offset_top = 1.33341
+offset_right = 959.0
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="Highlight4" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 952.0
+offset_top = 1.0
+offset_right = 1015.0
+offset_bottom = 239.0
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight3" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 996.0
+offset_top = 5.0
+offset_right = 1022.0
+offset_bottom = 142.0
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight5" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1009.0
+offset_top = 1.33341
+offset_right = 1069.0
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight4" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1052.0
+offset_top = 5.0
+offset_right = 1078.0
+offset_bottom = 142.0
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight6" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1065.67
+offset_top = 1.33341
+offset_right = 1125.67
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight5" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1109.0
+offset_top = 4.66675
+offset_right = 1135.0
+offset_bottom = 141.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight7" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1122.33
+offset_top = 1.33341
+offset_right = 1182.33
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="Highlight8" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1175.67
+offset_top = 1.66687
+offset_right = 1235.67
+offset_bottom = 239.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight6" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1219.0
+offset_top = 5.33346
+offset_right = 1244.0
+offset_bottom = 142.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight9" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1232.33
+offset_top = 1.66687
+offset_right = 1292.33
+offset_bottom = 239.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight7" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1276.0
+offset_top = 5.33346
+offset_right = 1301.0
+offset_bottom = 142.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight10" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1289.0
+offset_top = 1.66687
+offset_right = 1349.0
+offset_bottom = 239.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="Highlight11" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1342.0
+offset_top = 1.33346
+offset_right = 1405.0
+offset_bottom = 239.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight8" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1386.0
+offset_top = 5.33346
+offset_right = 1412.0
+offset_bottom = 142.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight12" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1399.0
+offset_top = 1.66687
+offset_right = 1459.0
+offset_bottom = 239.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight9" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1442.0
+offset_top = 5.33346
+offset_right = 1468.0
+offset_bottom = 142.333
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight13" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1455.67
+offset_top = 1.66687
+offset_right = 1515.67
+offset_bottom = 239.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")
+
+[node name="BlackHighlight10" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = 1
+layout_mode = 0
+offset_left = 1499.0
+offset_top = 5.0002
+offset_right = 1525.0
+offset_bottom = 142.0
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("3_8y2xl")
+expand_mode = 1
+
+[node name="Highlight14" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0.560784, 0.811765, 0.898039, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 1512.33
+offset_top = 1.66687
+offset_right = 1572.33
+offset_bottom = 239.667
+scale = Vector2(0.9, 0.99)
+texture = ExtResource("2_o67ql")

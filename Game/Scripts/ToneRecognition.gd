@@ -15,6 +15,7 @@ const LOWEST_OCTAVE = 2
 @export_range(0.0, 0.5) var ignore_tone_below_volume = 0.25
 
 var note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+var current_note_i: int = -1
 var current_note: String = note_names[0]
 var current_fq: float = 0
 var current_octave: int = 0
@@ -89,6 +90,7 @@ func playedNote(frequency) -> void:
 	var octave = floor((fqToMidi - C2_MIDI_POS) / 12) + LOWEST_OCTAVE
 	
 	current_fq = frequency
+	current_note_i = fqToMidi
 	current_note = note_names[int(fqToMidi) % 12]
 	current_octave = octave
 	
@@ -115,4 +117,5 @@ func _on_vol_filter_slider_value_changed(value: float) -> void:
 
 func clear_current_note():
 	current_fq = 0
+	current_note_i = -1
 	current_note = ''
