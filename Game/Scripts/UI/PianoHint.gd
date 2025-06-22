@@ -21,3 +21,11 @@ func show_hint(key: int) -> void:
 func hide_hint() -> void:
 	show = false
 	get_child(last_key).visible = false
+	
+func show_hint_proggression(prog: Array[int]):
+	for child in get_children():
+		child.visible = false
+	
+	show = true
+	for i in prog:
+		get_child(i).visible = true

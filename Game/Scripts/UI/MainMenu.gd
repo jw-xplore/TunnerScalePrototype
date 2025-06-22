@@ -5,6 +5,8 @@ class_name MainMenu
 @export var lbl_type: Label
 @export var game_manager: GameManager
 @export var level_buttons_holder: Control
+@export var piano_hint: PianoHint
+@export var scale_manager: ScalesManager
 
 @export_group("Audio")
 @export var audio_player: AudioStreamPlayer
@@ -88,6 +90,11 @@ func update_finished_levels():
 	var key = MusicConstants.TONE_NAMES[current_key]
 	var type = MusicConstants.PROGRESSION_NAMES[current_type]
 	
+	# Show hint
+	var proggression: Array[int] = scale_manager.generate_scale_changes(key, current_type)
+	piano_hint.show_hint_proggression(proggression)
+	
+	# Show completed
 	var completed: bool = false
 	
 	for i in range(0, level_buttons.size()):

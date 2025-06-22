@@ -39,3 +39,18 @@ func generate_scale(key: String, type: MusicConstants.EScaleTypes) -> Array[Stri
 	print("last_notes_i: " + str(last_notes_i))
 	
 	return notes
+
+func generate_scale_changes(key: String, type: MusicConstants.EScaleTypes) -> Array[int]:
+	var keyPos = MusicConstants.TONE_NAMES.find(key)
+	var offset = keyPos
+	var octave = INITIAL_OCTAVE
+	
+	var note_i_pos: int = keyPos + (octave - INITIAL_OCTAVE) * MusicConstants.TONES_COUNT
+	var notes_i: Array[int] = []
+	notes_i.append(note_i_pos)
+	
+	for i in MusicConstants.PROGRESSIONS[type]:
+		note_i_pos += i
+		notes_i.append(note_i_pos)
+		
+	return notes_i

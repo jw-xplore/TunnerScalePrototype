@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://45fhrklnafnt"]
+[gd_scene load_steps=26 format=3 uid="uid://45fhrklnafnt"]
 
 [ext_resource type="Script" uid="uid://bbg3av4d1a0l2" path="res://Game/Scripts/UI/MainMenu.gd" id="1_humqo"]
 [ext_resource type="Texture2D" uid="uid://c6qalq6hcnn3l" path="res://Game/Sprites/UI/Logo/Logo2_size2.png" id="2_aoqxq"]
@@ -23,8 +23,10 @@
 [ext_resource type="AudioStream" uid="uid://ct561ilewjapt" path="res://Game/Audio/Tones/ToneB.wav" id="13_yq8wj"]
 [ext_resource type="AudioStream" uid="uid://cgwpt731tquyo" path="res://Game/Audio/Melodies/WinMelody_placeholder.wav" id="22_26k17"]
 [ext_resource type="PackedScene" uid="uid://b7o43esvmuxd6" path="res://Game/Scenes/UI/FeedbackButton.tscn" id="23_vxag4"]
+[ext_resource type="PackedScene" uid="uid://ccpigel55v1pm" path="res://Game/Scenes/UI/PianoHint.tscn" id="24_divdf"]
+[ext_resource type="Script" uid="uid://53moi3obviwh" path="res://Game/Scripts/ScalesManager.gd" id="25_hydpq"]
 
-[node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type", "level_buttons_holder", "audio_player")]
+[node name="MenuLayout" type="Control" node_paths=PackedStringArray("lbl_key", "lbl_type", "level_buttons_holder", "piano_hint", "scale_manager", "audio_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,6 +37,8 @@ script = ExtResource("1_humqo")
 lbl_key = NodePath("MarginContainer/VBoxContainer/KeySelection/Lbl_Key")
 lbl_type = NodePath("MarginContainer/VBoxContainer/TypeSelection/Lbl_Type")
 level_buttons_holder = NodePath("MarginContainer/VBoxContainer/DifficultySelection")
+piano_hint = NodePath("PianoHint")
+scale_manager = NodePath("ScalesManager")
 audio_player = NodePath("AudioStreamPlayer")
 tones_sounds = Array[AudioStream]([ExtResource("2_lox42"), ExtResource("3_26k17"), ExtResource("4_vxag4"), ExtResource("5_divdf"), ExtResource("6_hydpq"), ExtResource("7_kr1u6"), ExtResource("8_r5m8m"), ExtResource("9_i8cmy"), ExtResource("10_rwlik"), ExtResource("11_ik5ew"), ExtResource("12_3bwky"), ExtResource("13_yq8wj")])
 
@@ -161,6 +165,15 @@ offset_top = 48.0
 offset_right = -58.0
 offset_bottom = 128.0
 grow_horizontal = 0
+
+[node name="ScalesManager" type="Node" parent="."]
+script = ExtResource("25_hydpq")
+
+[node name="PianoHint" parent="." instance=ExtResource("24_divdf")]
+z_index = 1
+layout_mode = 1
+offset_top = -243.0
+offset_bottom = -5.0
 
 [connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Left" to="." method="_on_btn_key_left_button_down"]
 [connection signal="button_down" from="MarginContainer/VBoxContainer/KeySelection/Btn_Right" to="." method="_on_btn_key_right_button_down"]
