@@ -22,6 +22,9 @@ var current_octave: int = 0
 
 var permissions
 
+# Detection cache
+var _energies: Array[float] = []
+
 # UI
 @export var lbl_tone: Label
 @export var lbl_record_exist: Label
@@ -31,7 +34,8 @@ var permissions
 @export var slider_vol_filter: Slider
 @export var lbl_vol_filter: Label
 
-const energy_boost = 0.001 * 2
+const energy_boost: float = 0.001 * 2
+const FQ_VU_RATIO: float = FREQ_MAX / VU_COUNT
 
 func _ready() -> void:
 	# Setup bus effects
@@ -51,6 +55,10 @@ func _ready() -> void:
 		
 	if lbl_spectrum_exist != null:
 		lbl_spectrum_exist.text = "Spectrum eff.: " + str(spectrum != null)
+		
+	# Setup cache
+	for i in range(0, VU_COUNT):
+		_energies.append(0)
 	
 func _process(delta: float) -> void:
 	if (spectrum != null):
@@ -62,7 +70,6 @@ func _process(delta: float) -> void:
 # Notes detection handling
 func processSound():
 	var prev_hz: float = 0.0
-	var energies: Array[float] = []
 	
 	# Loop variables
 	var hz: float = 0
@@ -70,40 +77,36 @@ func processSound():
 	var energy: float = 0
 
 	for i in range(1, VU_COUNT + 1):
-		hz = float(i) * FREQ_MAX / VU_COUNT
+		hz = float(i) * FQ_VU_RATIO
 		magnitude = spectrum.get_magnitude_for_frequency_range(prev_hz, hz).length()
 		energy = clampf((MIN_DB + linear_to_db(magnitude)) / MIN_DB, 0, 1)
 		energy *= (FREQ_MAX - hz) * energy_boost # Boost lower FQ
-		energies.append(energy)
+		_energies[i-1] = energy
 		#energies.append(energy * energy_boost(hz, FREQ_MAX, 2))
 		prev_hz = hz
 			
-	var ac = autocorrelation(energies)
+	var ac = autocorrelation()
 	playedNote(ac)
 
-func playedNote(frequency) -> void:
+func playedNote(frequency: int) -> void:
 	if frequency <= 0:
 		return
 	
 	var fq = log(frequency / 440.0) / log(2) # NOTE: Explore fq and fqToMidi formula
-	var fqToMidi = round(69 + 12 * fq)
-	var octave = floor((fqToMidi - C2_MIDI_POS) / 12) + LOWEST_OCTAVE
 	
 	current_fq = frequency
-	current_note_i = fqToMidi
-	current_note = note_names[int(fqToMidi) % 12]
-	current_octave = octave
+	current_note_i = round(69 + 12 * fq)
+	current_note = note_names[int(current_note_i) % 12]
+	current_octave = floor((current_note_i - C2_MIDI_POS) / 12) + LOWEST_OCTAVE
 	
-func autocorrelation(energies: Array):
-	#var correlations = []
-	var s: int = energies.size()
-	var largest_correlation: float = energies[0] * energies[0]
+func autocorrelation() -> int:
+	var largest_correlation: float = _energies[0] * _energies[0]
 	var lagest_pos: int = 0
 	
 	var cor: float
 	
-	for lag in range(1, energies.size()):
-		cor = energies[lag] * energies[(lag * 2) % s]
+	for lag in range(1, VU_COUNT + 1):
+		cor = _energies[lag-1] * _energies[(lag * 2) % VU_COUNT]
 		if largest_correlation < cor:
 			largest_correlation = cor
 			lagest_pos = lag
