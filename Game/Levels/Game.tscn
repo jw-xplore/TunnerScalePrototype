@@ -11,13 +11,14 @@
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_dd2nj"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("menu", "sunrise_image", "save_manager", "tone_recognition")]
+[node name="Game" type="Node" node_paths=PackedStringArray("menu", "sunrise_image", "save_manager", "tone_recognition", "lbl_fps")]
 script = ExtResource("1_tn28x")
 menu = NodePath("MenuLayout")
 game_scene = ExtResource("3_tn28x")
 sunrise_image = NodePath("SunriseImage")
 save_manager = NodePath("SaveManager")
 tone_recognition = NodePath("ToneRecognition")
+lbl_fps = NodePath("LblFps")
 
 [node name="SaveManager" parent="." instance=ExtResource("3_dd2nj")]
 
@@ -37,13 +38,18 @@ game_manager = NodePath("..")
 
 [node name="OpeningScene" parent="." instance=ExtResource("3_d71ai")]
 z_index = 10
-show = false
 
 [node name="TutorialScreen" parent="." node_paths=PackedStringArray("tone_recognition", "save_manager") instance=ExtResource("8_kektv")]
 z_index = 5
-show = false
 show_everytime = true
 tone_recognition = NodePath("../ToneRecognition")
 save_manager = NodePath("../SaveManager")
 read_delay = 7.0
 detect_tone_delay = 1.5
+
+[node name="LblFps" type="Label" parent="."]
+z_index = 100
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.5019608)
+text = "FPS"

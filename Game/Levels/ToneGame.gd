@@ -223,7 +223,7 @@ func _on_bpm_slider_value_changed(value: float) -> void:
 	bpm = value
 	bpm_time = 60.0 / bpm
 	lbl_bpm.text = str(bpm)
-
+	sheet_renderer.set_bpm(bpm)
 
 func _on_scale_key_list_item_selected(index: int) -> void:
 	var t: int = itemlist_scale_type.get_selected_items()[0]

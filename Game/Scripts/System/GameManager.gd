@@ -9,8 +9,10 @@ class_name GameManager
 
 var tone_game: ToneGameManager
 var active_level: String
+@export var lbl_fps: Label
 
 func _ready() -> void:
+	set_physics_process(false)
 	# Permisions
 	var permissions
 	if Engine.has_singleton("AndroidPermissions"):
@@ -35,6 +37,7 @@ func _process(delta: float) -> void:
 		pass
 		#sunrise_image.set_progress(tone_game.pr)
 	
+	lbl_fps.text = "FPS: " + str(Engine.get_frames_per_second())
 	
 func activate_menu(menu_active: bool):
 	# Menu
@@ -84,8 +87,8 @@ func setup_game(bpm: int, repetitions: int, key: int, type: int, lvl_id: int):
 	
 	tone_game.itemlist_scale_key.select(key)
 	tone_game.itemlist_scale_type.select(type)
-	tone_game._on_scale_key_list_item_selected(key)
-	tone_game._on_scale_type_list_item_selected(type)
+	#tone_game._on_scale_key_list_item_selected(key)
+	#tone_game._on_scale_type_list_item_selected(type)
 	
 	tone_game.tone_audio_player.stream = menu.get_current_tone()
 

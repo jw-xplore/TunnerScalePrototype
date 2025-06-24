@@ -6,7 +6,7 @@ class_name SheetRenderer
 
 @export_group("Properties")
 @export var line_space: float = 25
-@export var note_distance = 100
+@export var note_distance: float = 100
 @export var fade_size: float = 250
 
 @export_group("Sheet assets")
@@ -28,9 +28,15 @@ const OCTAVE_DISTANCE = 7
 var half_step: float = 0
 
 var tested_note: Control
+var last_note: Control
+var last_note_pos_x: float = 0
+var leading_note_id: int = 0
+var leading_note: Control
+var move_per_sec: float
 
 func _ready() -> void:
 	half_step = line_space * 0.5
+	
 	# Create line base
 	for i in range(0, 5):
 		var line: Control = line_scene.instantiate()
@@ -45,12 +51,13 @@ func _process(delta: float) -> void:
 			note.modulate.a = (fade_size - (note.global_position.x - fade_size)) / fade_size
 		
 	# Remove notes if too left
+	"""
 	for note in notes_holder.get_children():
 		if note.global_position.x < remove_note_position:
 			notes_holder.remove_child(note)
 			note.queue_free()
 			break;
-	#move_notes(delta)
+	"""
 		
 func create_sequece(notes: Array[String]):
 	for note in notes:
@@ -59,25 +66,26 @@ func create_sequece(notes: Array[String]):
 		elif note.length() == 3: # Sharps
 			create_note(note.substr(0, 2), int(note[2]))
 		
-func create_note(note: String, octave: int):
-	var pos = note_names.find(note[0])
+func create_note(note: String, octave: int, note_obj: Control = null):
+	var pos: int = note_names.find(note[0])
 	if pos == -1:
 		return
 		
 	# Create note
-	var note_obj: Control = note_quarter_scene.instantiate()
+	if note_obj == null:
+		note_obj = note_quarter_scene.instantiate()
 	notes_holder.add_child(note_obj)
 	
+	if leading_note == null:
+		leading_note = note_obj
+		leading_note_id = 0
+	
 	# Position and scale
-	var prev_note: Control = notes_holder.get_child(notes_holder.get_child_count() - 2)
-	var prev_pos_x = 0
-	if prev_note != null:
-		prev_pos_x = prev_note.position.x
-		
-	var x = note_distance + prev_pos_x
-	var octave_position = (octave - 4) * half_step * OCTAVE_DISTANCE
-	var y = lowest_position_treble_c4 * half_step - pos * half_step - octave_position
-	note_obj.position = Vector2(x, y)
+	last_note_pos_x += note_distance
+	var octave_position: float = (octave - 4) * half_step * OCTAVE_DISTANCE
+	var y: float = lowest_position_treble_c4 * half_step - pos * half_step - octave_position
+	note_obj.position.x = last_note_pos_x
+	note_obj.position.y = y
 	
 	# Negative scale to rotate note
 	if y < half_step * 5:
@@ -93,6 +101,9 @@ func create_note(note: String, octave: int):
 	if note == "C" and octave == 4:
 		note_obj.get_node("CLine").visible = true
 		
+	# Color
+	note_obj.modulate = Color.WHITE
+		
 func clear_sheet():
 	for note in notes_holder.get_children():
 		notes_holder.remove_child(note)
@@ -101,14 +112,26 @@ func clear_sheet():
 var move_track: float = 0
 var time_track: float = 0
 
+func set_bpm(bmp: int):
+	move_per_sec = (tone_game.bpm / 60) * note_distance
+
 func move_notes(delta: float):
-	var bpm = tone_game.bpm
-	var move_per_sec = (tone_game.bpm / 60) * note_distance
-	var move = move_per_sec * delta
+	notes_holder.position -= Vector2(move_per_sec * delta, 0)
 	
-	#move_track += move
-	#time_track += delta
-	notes_holder.position -= Vector2(move, 0)
+	# Move leading note
+	if leading_note.global_position.x < 0:
+		var note: String = tone_game.tones[leading_note_id]
+		if note.length() == 2:
+			create_note(note[0], int(note[1]), leading_note)
+		elif note.length() == 3: # Sharps
+			create_note(note.substr(0, 2), int(note[2]), leading_note)
+		
+		leading_note_id += 1
+		# Progress
+		if leading_note_id >= notes_holder.get_child_count():
+			leading_note_id = 0
+			
+		leading_note = notes_holder.get_child(leading_note_id)
 	
 func fix_notes_movement(beat: int):
 	notes_holder.position = Vector2(-note_distance * beat, notes_holder.position.y)
@@ -123,20 +146,21 @@ func note_node_id(note: Node) -> int:
 	return -1
 	
 func set_notes_position(beats: int):
-	var pos = note_distance * (beats + 1)
+	var pos: float = note_distance * (beats + 1)
 	notes_holder.position = Vector2(-pos, 0)
 	
 func set_check_area_beat_offset(beats: int):
-	var pos = note_distance * beats
-	var area_w = check_area.size.x / 2
+	var pos: float = note_distance * beats
+	var area_w: float = check_area.size.x / 2
 	check_area.position = Vector2(-pos - area_w, check_area.position.y)
 
 func can_create_new_sequence() -> bool:
-	var last_note = notes_holder.get_child(notes_holder.get_child_count() - 1)
-	if last_note == null:
-		return false
+	#var last_note = notes_holder.get_child(notes_holder.get_child_count() - 1)
+	#if last_note == null:
+	#	return false
 		
-	return last_note.global_position.x < new_sequence_position
+	#return last_note.global_position.x < new_sequence_position
+	return false
 
 func tested_note_feedback(success: bool):
 	# update tested note
