@@ -47,9 +47,19 @@ save_manager = NodePath("../SaveManager")
 read_delay = 7.0
 detect_tone_delay = 1.5
 
+[node name="LblVersion" type="Label" parent="."]
+z_index = 100
+offset_right = 83.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.19607843)
+theme_override_font_sizes/font_size = 12
+text = "TR 1.0.0.a"
+
 [node name="LblFps" type="Label" parent="."]
 z_index = 100
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(1, 1, 1, 0.5019608)
+offset_left = 83.0
+offset_right = 166.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.19607843)
+theme_override_font_sizes/font_size = 12
 text = "FPS"

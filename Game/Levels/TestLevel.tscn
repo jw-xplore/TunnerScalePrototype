@@ -10,10 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://kyk8n7c058xu" path="res://Game/Sprites/UI/Icon_Cancel.png" id="6_n8a3h"]
 [ext_resource type="PackedScene" uid="uid://ccpigel55v1pm" path="res://Game/Scenes/UI/PianoHint.tscn" id="8_ugqfd"]
 [ext_resource type="PackedScene" uid="uid://oce7o2nmo5cb" path="res://Game/Scenes/Sheets/SheetRenderer.tscn" id="9_abuft"]
-[ext_resource type="AudioStream" uid="uid://cgwpt731tquyo" path="res://Game/Audio/Melodies/WinMelody_placeholder.wav" id="9_ugqfd"]
+[ext_resource type="AudioStream" uid="uid://su00jtrckmg2" path="res://Game/Audio/Melodies/WinMelody.mp3" id="12_7pgud"]
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("metro", "scaleManager", "sheet_renderer", "gameplay_ui", "lbl_current_tone", "lbl_score", "lbl_repetitions", "slider_bpm", "lbl_bpm", "lbl_recognized_tone", "itemlist_scale_key", "itemlist_scale_type", "piano_hint", "rating_dialog", "win_audio_player", "tone_audio_player")]
 script = ExtResource("1_1yube")
+_debug_note_success = true
 tones = Array[String](["C", "D", "E", "F", "G", "A", "B", "C", "C", "B", "A", "G", "F", "E", "D", "C"])
 metro = NodePath("Metronome")
 scaleManager = NodePath("ScalesManager")
@@ -338,6 +339,7 @@ offset_top = 286.0
 offset_right = 320.0
 offset_bottom = 286.0
 tone_game = NodePath("../../..")
+note_distance = 175.0
 fade_size = 700.0
 new_sequence_position = 1600.0
 
@@ -363,10 +365,10 @@ volume_db = -20.0
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="WinPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_ugqfd")
+stream = ExtResource("12_7pgud")
 
 [node name="TonePlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_ugqfd")
+stream = ExtResource("12_7pgud")
 
 [connection signal="value_changed" from="NoteUI/SettingsUI/BPMSettings/BPMSlider" to="." method="_on_bpm_slider_value_changed"]
 [connection signal="item_selected" from="NoteUI/SettingsUI/ProgressionSettings/ScaleKeyList" to="." method="_on_scale_key_list_item_selected"]

@@ -74,7 +74,7 @@ func create_note(note: String, octave: int, note_obj: Control = null):
 	# Create note
 	if note_obj == null:
 		note_obj = note_quarter_scene.instantiate()
-	notes_holder.add_child(note_obj)
+		notes_holder.add_child(note_obj)
 	
 	if leading_note == null:
 		leading_note = note_obj

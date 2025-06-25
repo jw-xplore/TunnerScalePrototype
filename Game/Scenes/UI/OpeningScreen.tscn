@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dulnyf2o6jdv8" path="res://Game/Scripts/UI/OpeningScreen.gd" id="1_737i0"]
 [ext_resource type="Texture2D" uid="uid://drwlc1ggqenl3" path="res://Game/Sprites/SunriseImage/Square.png" id="1_stf4m"]
 [ext_resource type="Texture2D" uid="uid://cq11rlpmt5ik4" path="res://Game/Sprites/UI/Logo/Logo2_size4.png" id="2_stf4m"]
-[ext_resource type="AudioStream" uid="uid://c6vsum0adr72n" path="res://Game/Audio/Melodies/OpeningMelody_placeholder.wav" id="4_6qemx"]
+[ext_resource type="AudioStream" uid="uid://dtms2hcgov0bn" path="res://Game/Audio/Melodies/OpeningMelody.mp3" id="4_6qemx"]
 
 [node name="OpeningScene" type="Control"]
 layout_mode = 3
